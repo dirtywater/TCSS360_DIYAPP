@@ -1,7 +1,6 @@
 package main;
 
 import java.awt.EventQueue;
-
 import view.GUI;
 
 /**
@@ -24,6 +23,7 @@ public final class Main {
 			public void run() {
 				new GUI().start();
 			}
+			
 		});
 	}
 }

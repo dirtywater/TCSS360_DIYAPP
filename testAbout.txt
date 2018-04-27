@@ -1,0 +1,17 @@
+DIY Application
+
+TCSS 360 B Spring 2018
+Software Development and Quality Assurance Techniques
+
+Developers:
+Michelle Brown
+Jim Phan
+David Guerrero
+Caleb Wheeler
+
+StakeHolders Site: https://dirtywater.github.io/
+Source Code Site: https://github.com/dirtywater/TCSS360_DIYAPP.git
+
+Revision: 2.0.1
+Revision Date: 2018/04/26
+

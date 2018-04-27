@@ -3,7 +3,11 @@ package view;
 import java.awt.Dimension;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JLabel;
+
+import main.ReadTextFile;
 
 /**
  * The Main frame the user sees. It houses the home screen and its buttons.
@@ -44,5 +48,16 @@ public class MainFrame extends JFrame {
 		displayPanel.setSize(new Dimension(width, height));
 		add(dynamicPanel);
 		dynamicPanel.add(displayPanel);
+		JLabel myAboutBoxJLabel = new JLabel();
+		displayPanel.add(myAboutBoxJLabel);
+		
+
+		ReadTextFile aboutBoxTestText = new ReadTextFile("testAbout.txt");
+		
+        System.out.println(aboutBoxTestText.myText);
+        
+		myAboutBoxJLabel.setText(aboutBoxTestText.myText);
+		
+		
 	}
 }
