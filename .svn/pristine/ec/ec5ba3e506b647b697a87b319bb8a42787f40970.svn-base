@@ -1,0 +1,30 @@
+/*
+* TCSS 305 – Spring 2017
+* Assignment 0 – Orientation
+*/
+
+/**
+* This is the HelloMain Class.
+* Calls Hello class.
+*
+* @author David Guerrero dg0890@uw.edu
+* @version 28 March 2017
+*/
+public final class HelloMain {
+    /**
+     * Private constructor limits instantiation.
+     */
+    private HelloMain() {
+        
+    }
+    
+    /**
+     * Driver method for HelloMain.
+     *
+     * @param theArgs the command line arguments.
+     */
+    public static void main(final String[] theArgs) {
+        new Hello().sayHello();
+    }
+
+}

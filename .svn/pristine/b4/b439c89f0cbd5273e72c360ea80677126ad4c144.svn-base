@@ -1,0 +1,24 @@
+/*
+* TCSS 305 – Spring 2017
+* Assignment 0 – Orientation
+*/
+
+/**
+* This this the Hello Class.
+* Prints something to the console.
+*
+* @author David Guerrero dg0890@uw.edu
+* @version 28 March 2017
+*/
+public class Hello {
+    
+    /** A string constant for my saying. */
+    private static final String A_SAYING = "Hello World!\nMy name is David Guerrero.";
+                    
+    /**
+     * Prints A_SAYING to the console.
+     */
+    public void sayHello() {
+        System.out.println(A_SAYING);
+    }
+}
