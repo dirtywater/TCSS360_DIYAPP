@@ -6,7 +6,8 @@ import view.GUI;
 /**
  * The main method that runs the program.
  *
- * @author Jim Phan & David Guerrero phanjim2@hotmail.com, dirtywater365@gmail.com
+ * @author Jim Phan & David Guerrero & Michelle Brown
+ * phanjim2@hotmail.com, dirtywater365@gmail.com
  * @version Apr 26, 2018
  */
 public final class Main {
@@ -23,7 +24,7 @@ public final class Main {
 			public void run() {
 				new GUI().start();
 			}
-			
+
 		});
 	}
 }
