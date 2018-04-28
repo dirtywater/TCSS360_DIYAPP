@@ -13,12 +13,12 @@ public class GUI {
 	/**
 	 * The width of the frame.
 	 */
-	private static final int WIDTH = 400;
+	private static final int WIDTH = 430;
 	
 	/**
 	 * The height of the frame.
 	 */
-	private static final int HEIGHT = 300;
+	private static final int HEIGHT = 335;
 	
 	/**
 	 * The Title of the Frame.
