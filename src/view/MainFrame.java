@@ -43,8 +43,8 @@ public class MainFrame extends JFrame {
 		setVisible(true);
 		setSize(new Dimension(width, height));
 		dynamicPanel = new JPanel();
-		dynamicPanel.setSize(new Dimension(width+20, height+20));
-		displayPanel = new AboutPanel(new ReadTextFile("testAbout.txt").myText, width, height); //Replace with Caleb's code.
+		dynamicPanel.setSize(new Dimension(width, height));
+		displayPanel = new AboutPanel(new ReadTextFile("testAbout.txt").myText, width+20, height+20);
 		
 		add(dynamicPanel);
 		dynamicPanel.add(displayPanel);
