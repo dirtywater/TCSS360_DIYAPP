@@ -43,20 +43,11 @@ public class MainFrame extends JFrame {
 		setVisible(true);
 		setSize(new Dimension(width, height));
 		dynamicPanel = new JPanel();
-		dynamicPanel.setSize(new Dimension(width, height));
-		displayPanel = new JPanel(); //Replace with Caleb's code.
-		displayPanel.setSize(new Dimension(width, height));
+		dynamicPanel.setSize(new Dimension(width+20, height+20));
+		displayPanel = new AboutPanel(new ReadTextFile("testAbout.txt").myText, width, height); //Replace with Caleb's code.
+		
 		add(dynamicPanel);
 		dynamicPanel.add(displayPanel);
-		JLabel myAboutBoxJLabel = new JLabel();
-		displayPanel.add(myAboutBoxJLabel);
-		
-
-		ReadTextFile aboutBoxTestText = new ReadTextFile("testAbout.txt");
-		
-        System.out.println(aboutBoxTestText.myText);
-        
-		myAboutBoxJLabel.setText(aboutBoxTestText.myText);
 		
 		
 	}
