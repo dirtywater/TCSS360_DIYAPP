@@ -36,7 +36,6 @@ public class AboutPanel extends JPanel {
         
         aboutText = convertToHTML(aboutText);
         JLabel about = new JLabel(aboutText, SwingConstants.CENTER);
-        //this.setMinimumSize(this.getMinimumSize());
         this.add(about);
         this.setBorder(new LineBorder(Color.BLACK));
     }
