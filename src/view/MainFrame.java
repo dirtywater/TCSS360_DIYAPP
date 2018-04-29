@@ -49,7 +49,7 @@ public class MainFrame extends JFrame {
 		add(dynamicPanel);
 		dynamicPanel.add(displayPanel);
 
-		setMinimumSize(new Dimension(this.getPreferredSize()));
-		setMaximumSize(new Dimension(this.getPreferredSize()));
+		setMinimumSize(this.getPreferredSize());
+		setMaximumSize(this.getPreferredSize());
 	}
 }
