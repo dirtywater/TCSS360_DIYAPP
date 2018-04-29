@@ -1,12 +1,7 @@
 package view;
 
-import java.awt.Dimension;
-
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JLabel;
-
 import main.ReadTextFile;
 
 /**
@@ -38,17 +33,18 @@ public class MainFrame extends JFrame {
 	 * @param width Width of the frame.
 	 * @param height Height of the frame.
 	 */
-	public MainFrame(int width, int height) {
+	public MainFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
-		setSize(new Dimension(width, height));
+		
 		dynamicPanel = new JPanel();
-		dynamicPanel.setSize(new Dimension(width, height));
-		displayPanel = new AboutPanel(new ReadTextFile("testAbout.txt").myText, width+20, height+20);
+		
+		displayPanel = new AboutPanel(new ReadTextFile("testAbout.txt").myText);
 		
 		add(dynamicPanel);
 		dynamicPanel.add(displayPanel);
-		
-		
+
+		setMinimumSize(this.getPreferredSize());
+		setMaximumSize(this.getPreferredSize());
 	}
 }

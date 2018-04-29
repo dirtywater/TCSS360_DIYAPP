@@ -1,11 +1,8 @@
 package main;
 
-import java.awt.Dimension;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-
-import javax.swing.JPanel;
 
 /**
  * The main method that runs the program.
