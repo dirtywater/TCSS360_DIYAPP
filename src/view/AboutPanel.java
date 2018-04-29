@@ -32,13 +32,11 @@ public class AboutPanel extends JPanel {
      * @param width minimum width of the panel
      * @param height minimum height of the panel
      */
-    public AboutPanel(String aboutText, int width, int height) {
-        Dimension size = new Dimension();
-        size.setSize(width, height);
-        this.setMinimumSize(size);
+    public AboutPanel(String aboutText) { 
         
         aboutText = convertToHTML(aboutText);
         JLabel about = new JLabel(aboutText, SwingConstants.CENTER);
+        //this.setMinimumSize(this.getMinimumSize());
         this.add(about);
         this.setBorder(new LineBorder(Color.BLACK));
     }
