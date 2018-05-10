@@ -38,26 +38,18 @@ public class MainFrame extends JFrame {
 	 * @param width Width of the frame.
 	 * @param height Height of the frame.
 	 */
-	public MainFrame(int width, int height) {
+	public MainFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
-		setSize(new Dimension(width, height));
+		
 		dynamicPanel = new JPanel();
-		dynamicPanel.setSize(new Dimension(width, height));
-		displayPanel = new JPanel(); //Replace with Caleb's code.
-		displayPanel.setSize(new Dimension(width, height));
+		
+		displayPanel = new AboutPanel(new ReadTextFile("testAbout.txt").myText);
+		
 		add(dynamicPanel);
 		dynamicPanel.add(displayPanel);
-		JLabel myAboutBoxJLabel = new JLabel();
-		displayPanel.add(myAboutBoxJLabel);
-		
 
-		ReadTextFile aboutBoxTestText = new ReadTextFile("testAbout.txt");
-		
-        System.out.println(aboutBoxTestText.myText);
-        
-		myAboutBoxJLabel.setText(aboutBoxTestText.myText);
-		
-		
+		setMinimumSize(new Dimension(this.getPreferredSize()));
+		setMaximumSize(new Dimension(this.getPreferredSize()));
 	}
 }
