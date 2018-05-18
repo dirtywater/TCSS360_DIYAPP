@@ -10,7 +10,7 @@ import main.ReadTextFile;
 /**
  * The Main frame the user sees. It houses the home screen and its buttons.
  *
- * @author Jim Phan phanjim2@hotmail.com
+ * @author Jim Phan phanjim2@hotmail.com Jim Was here
  * @author Michelle Brown
  * 
  * @version Apr 29, 2018
