@@ -10,10 +10,20 @@ import javax.swing.JFrame;
  */
 public class GUI {
 	
-	/**
-	 * The Title of the Frame.
-	 */
-	private static final String TITLE = "About";
+    /**
+     * The width of the frame.
+     */
+    private static final int WIDTH = 1000;
+    
+    /**
+     * The height of the frame.
+     */
+    private static final int HEIGHT = 600;
+    
+    /**
+     * The Title of the Frame.
+     */
+    private static final String TITLE = "DIY Project";
 	
 	/**
 	 * The JFrame used to display to the user.
@@ -24,7 +34,7 @@ public class GUI {
 	 * The constructor. Used to starts the frame.
 	 */
 	public GUI() {
-		myFrame = new MainFrame();
+		myFrame = new MainFrame(WIDTH, HEIGHT);
 	}
 	
 	/**
