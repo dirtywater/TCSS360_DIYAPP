@@ -16,6 +16,9 @@ public class Utility {
      * load a file that contains a json object and return the json object saved in that file.
      * look at https://www.mkyong.com/java/json-simple-example-read-and-write-json/ 
      * for info on how to parse the json object.
+     * @throws ParseException 
+     * @throws IOException 
+     * @throws FileNotFoundException 
      * @autho caleb
      */
     public static JSONObject loadFile(String theFilePath) {
@@ -37,7 +40,7 @@ public class Utility {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
+        
         if(obj != null) {
             jsonObject = (JSONObject) obj;
         }
