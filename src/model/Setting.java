@@ -1,8 +1,6 @@
-package view;
+package model;
 
 import org.json.simple.JSONObject;
-
-import model.Utility;
 
 public class Setting {
 
