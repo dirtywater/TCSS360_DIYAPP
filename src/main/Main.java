@@ -1,6 +1,8 @@
 package main;
 
 import java.awt.EventQueue;
+import java.io.IOException;
+
 import view.GUI;
 
 /**
@@ -24,7 +26,13 @@ public final class Main {
 
 			@Override
 			public void run() {
-				new GUI().start();
+				try {
+                    new GUI().start();
+                }
+                catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
 			}
 
 		});
