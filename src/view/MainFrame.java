@@ -1,11 +1,21 @@
 package view;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import main.ReadTextFile;
+import view.panel.DisplayPanel;
+
 
 /**
  * The Main frame the user sees. It houses the home screen and its buttons.
@@ -17,42 +27,89 @@ import main.ReadTextFile;
  */
 public class MainFrame extends JFrame {
 
+
     /**
      * Serial code of the class.
      */
     private static final long serialVersionUID = -7259295803716311757L;
-
+    
+    private static final double REDUCTION = 0.75;
+    
+    private static final double SIDE = 0.10;
+    
     /**
-     * The JPanel that's displayed to the user.
+     * The panel that is held to the frame.
      */
     private JPanel displayPanel;
-
+    
     /**
-     * The JPanel that handles the change of the display panel.
+     * The current panel that's displayed to the user.
      */
     private JPanel dynamicPanel;
-
+    
+    /**
+     * The Side Panel that houses the buttons.
+     */
+    private JPanel sidePanel;
+    
+    private Dimension frameDimension;
+    
     /**
      * The constructor. Initialize the values of the frame and sets up the panels.
+     * 
+     * @param width Width of the frame.
+     * @param height Height of the frame.
      */
-    public MainFrame() {
+    public MainFrame(int width, int height) {
+        frameDimension = Toolkit.getDefaultToolkit().getScreenSize();
+        
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
+        //setSize(new Dimension(width, height));
+        setSize((int)(frameDimension.width * REDUCTION),
+                (int)(frameDimension.height * REDUCTION));
         dynamicPanel = new JPanel();
+        //dynamicPanel.setSize(new Dimension(width, height));
+        displayPanel = new JPanel(); //Replace with Caleb's code.
+        //displayPanel.setSize(new Dimension(width, height));
+        sidePanel = createSidePanel(frameDimension.width, frameDimension.height);
+        add(sidePanel, BorderLayout.WEST);
+        add(displayPanel, BorderLayout.EAST);
+        displayPanel.add(dynamicPanel);
+    }
+    
+    private JPanel createSidePanel(int frameWidth, int frameHeight) {
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        //panel.setLayout(new GridLayout());
+        panel.setBackground(Color.BLACK);
+        panel.setPreferredSize(new Dimension((int)(frameWidth * SIDE),
+                                             frameHeight));
+        panel.add(createButton(new DisplayPanel(Color.BLACK), "Home"));
+        panel.add(createButton(new DisplayPanel(Color.WHITE), "Graph"));
+        panel.add(createButton(new DisplayPanel(Color.BLUE), "Shop"));
+        panel.add(createButton(new DisplayPanel(Color.RED), "Other"));
+        return panel;
+    }
+    
+    private JButton createButton(JPanel panel, String icon) {
+        JButton button = new JButton();
+        button.addActionListener(new ActionListener() {
 
-        String aboutText = null;
-        try {
-            aboutText = new ReadTextFile("testAbout.txt").myText;
-        } catch (FileNotFoundException e) {
-            JOptionPane.showMessageDialog(null, "Error: about file missing", "Error", JOptionPane.ERROR_MESSAGE);
-            System.exit(0); //fix it later so it will stay open
-        }
-        displayPanel = new AboutPanel(aboutText);
-
-        add(dynamicPanel);
-        dynamicPanel.add(displayPanel);
-
-        setMinimumSize(this.getPreferredSize());
-        setMaximumSize(this.getPreferredSize());
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(panel != null) {
+                    switchPanel(panel);
+                }
+            }
+        });
+        return button;
+    }
+    
+    private void switchPanel(JPanel panel) {
+        displayPanel.remove(dynamicPanel);
+        dynamicPanel = panel;
+        displayPanel.add(dynamicPanel, BorderLayout.CENTER);
+        validate();
     }
 }
