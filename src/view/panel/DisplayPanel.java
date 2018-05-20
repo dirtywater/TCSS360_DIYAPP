@@ -13,8 +13,11 @@ import javax.swing.JPanel;
  */
 public class DisplayPanel extends JPanel {
 
-	public DisplayPanel(Color color) {
-		this.setBackground(color);
-		this.setPreferredSize(new Dimension(500,500));
-	}
+    public DisplayPanel(Color color, Dimension dimension) {
+        this.setBackground(color);
+        int width = (int) (dimension.width * 0.85);
+        int height = (int) (dimension.height);
+        //int width = 500, height = 500;
+        this.setPreferredSize(new Dimension(width, height));
+    }
 }

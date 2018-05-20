@@ -7,6 +7,7 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -27,14 +28,19 @@ import view.panel.DisplayPanel;
  */
 public class MainFrame extends JFrame {
 
-
     /**
      * Serial code of the class.
      */
     private static final long serialVersionUID = -7259295803716311757L;
     
+    /**
+     * The reduction value used on the computer's screen resolution.
+     */
     private static final double REDUCTION = 0.75;
     
+    /**
+     * Reduction used for the side panel.
+     */
     private static final double SIDE = 0.10;
     
     /**
@@ -52,6 +58,9 @@ public class MainFrame extends JFrame {
      */
     private JPanel sidePanel;
     
+    /**
+     * The dimension of the frame.
+     */
     private Dimension frameDimension;
     
     /**
@@ -59,57 +68,68 @@ public class MainFrame extends JFrame {
      * 
      * @param width Width of the frame.
      * @param height Height of the frame.
+     * @throws IOException 
      */
-    public MainFrame(int width, int height) {
-        frameDimension = Toolkit.getDefaultToolkit().getScreenSize();
+    public MainFrame(int width, int height) throws IOException {
+        Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
         
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
         //setSize(new Dimension(width, height));
-        setSize((int)(frameDimension.width * REDUCTION),
-                (int)(frameDimension.height * REDUCTION));
+        frameDimension = new Dimension((int)(size.getWidth() * REDUCTION),
+                (int)(size.getHeight() * REDUCTION));
+        setSize(new Dimension((int)(frameDimension.getWidth()),
+                (int)frameDimension.getHeight()));
         dynamicPanel = new JPanel();
-        //dynamicPanel.setSize(new Dimension(width, height));
         displayPanel = new JPanel(); //Replace with Caleb's code.
-        //displayPanel.setSize(new Dimension(width, height));
-        sidePanel = createSidePanel(frameDimension.width, frameDimension.height);
+        sidePanel = createSidePanel((int)(frameDimension.width * SIDE),
+                (int)(frameDimension.height * REDUCTION));
         add(sidePanel, BorderLayout.WEST);
         add(displayPanel, BorderLayout.EAST);
         displayPanel.add(dynamicPanel);
     }
     
-    private JPanel createSidePanel(int frameWidth, int frameHeight) {
+    private JPanel createSidePanel(int width, int height) throws IOException {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        //panel.setLayout(new GridLayout());
+
         panel.setBackground(Color.BLACK);
-        panel.setPreferredSize(new Dimension((int)(frameWidth * SIDE),
-                                             frameHeight));
-        panel.add(createButton(new DisplayPanel(Color.BLACK), "Home"));
-        panel.add(createButton(new DisplayPanel(Color.WHITE), "Graph"));
-        panel.add(createButton(new DisplayPanel(Color.BLUE), "Shop"));
-        panel.add(createButton(new DisplayPanel(Color.RED), "Other"));
+        panel.setPreferredSize(new Dimension(width, height));
+        
+        panel.add(createButton("Home", "Home"));
+        panel.add(createButton("Graph", "Graph"));
+        panel.add(createButton("Shop", "Shop"));
+        panel.add(createButton("Settings", "Settings"));
         return panel;
     }
     
-    private JButton createButton(JPanel panel, String icon) {
-        JButton button = new JButton();
-        button.addActionListener(new ActionListener() {
+    private JButton createButton(String name, String icon) throws IOException {
+        JButton button = new JButton(name);
 
+        //Image image = ImageIO.read(new File(icon));
+        button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(panel != null) {
-                    switchPanel(panel);
-                }
+                displayPanel.remove(dynamicPanel);
+                dynamicPanel = createPanel(button.getText());
+                displayPanel.add(dynamicPanel, BorderLayout.CENTER);
+                validate();
             }
         });
         return button;
     }
     
-    private void switchPanel(JPanel panel) {
-        displayPanel.remove(dynamicPanel);
-        dynamicPanel = panel;
-        displayPanel.add(dynamicPanel, BorderLayout.CENTER);
-        validate();
+    private JPanel createPanel(String name) {
+        JPanel panel;
+        if(name.equals("Home")) {
+            panel = new DisplayPanel(Color.BLACK, frameDimension);
+        } else if(name.equals("Graph")){
+            panel = new DisplayPanel(Color.GREEN, frameDimension);
+        } else if(name.equals("Shop")) {
+            panel = new DisplayPanel(Color.RED, frameDimension);
+        } else {
+            panel = new DisplayPanel(Color.ORANGE, frameDimension);
+        }
+        return panel;
     }
 }
