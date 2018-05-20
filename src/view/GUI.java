@@ -1,5 +1,7 @@
 package view;
 
+import java.io.IOException;
+
 import javax.swing.JFrame;
 
 /**
@@ -32,8 +34,9 @@ public class GUI {
 	
 	/**
 	 * The constructor. Used to starts the frame.
+	 * @throws IOException 
 	 */
-	public GUI() {
+	public GUI() throws IOException {
 		myFrame = new MainFrame(WIDTH, HEIGHT);
 	}
 	
