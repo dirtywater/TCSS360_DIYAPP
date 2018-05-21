@@ -96,4 +96,17 @@ public class Utility {
             e.printStackTrace();
         }
     }
+    
+    /**
+     * The jlabel can display html.
+     * @param aboutText the text to show 
+     * @return returns an html 
+     */
+    public String convertToHTML(String aboutText) {
+        return "<html>" + aboutText
+                        .replaceAll("<", "&lt;")
+                        .replaceAll(">", "&gt;")
+                        .replaceAll("\n", "<br/>")
+                        + "</html>";
+    }
 }

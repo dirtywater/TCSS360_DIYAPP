@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -60,15 +61,21 @@ public class SettingsPanel extends JPanel {
      */
     public SettingsPanel (Dimension size) {
         
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+//        this.setSize(size);
         userSettings = new Setting();
-        name = userSettings.myFirstName;
-        email = userSettings.myEmail;
+//        name = userSettings.myFirstName; //not working
+        name = "name";
+//        email = userSettings.myEmail; //not working
+        email = "email@something.com";
 
         String text = "Current Settings:\nName: ";
         StringBuilder sb = new StringBuilder(text);
         sb.append(name);
         sb.append("\nEmail: ");
         sb.append(email);
+        Utility utility = new Utility();
+        text = utility.convertToHTML(text);
         JLabel savedSettings = new JLabel(text);
         this.add(savedSettings);
 
