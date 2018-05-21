@@ -16,25 +16,25 @@ import view.GUI;
  */
 public final class Main {
 
-	/**
-	 * The main method that runs.
-	 * 
-	 * @param args Command line arguments.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
+    /**
+     * The main method that runs.
+     * 
+     * @param args Command line arguments.
+     */
+    public static void main(String[] args) {
+        EventQueue.invokeLater(new Runnable() {
 
-			@Override
-			public void run() {
-				try {
+            @Override
+            public void run() {
+                try {
                     new GUI().start();
                 }
                 catch (IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
-			}
+            }
 
-		});
-	}
+        });
+    }
 }

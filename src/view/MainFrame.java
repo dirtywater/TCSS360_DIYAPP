@@ -129,7 +129,6 @@ public class MainFrame extends JFrame {
     
     private JPanel createPanel(String name) {
         JPanel panel;
-        utility = new Utility();
         if(name.equals("Home")) {
             panel = new DisplayPanel(Color.BLACK, frameDimension);
         } else if(name.equals("Projects")){
@@ -141,7 +140,7 @@ public class MainFrame extends JFrame {
         } else if(name.equals("About")){
             String aboutText = "";
             try {
-                aboutText = utility.ReadTextFile("testAbout.txt");
+                aboutText = Utility.ReadTextFile("testAbout.txt");
             } catch (FileNotFoundException e) { e.printStackTrace(); }
             panel = new AboutPanel(aboutText);
         } else if(name.equals("Settings")){

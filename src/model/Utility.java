@@ -15,6 +15,8 @@ import org.json.simple.parser.ParseException;
 public class Utility {
 
     
+    private Utility() {} //helper class don't instantiate
+    
     /**
      * Reads the contents of a file, and returns them in a String.
      * 
@@ -23,7 +25,7 @@ public class Utility {
      * @throws FileNotFoundException
      * @author David
      */
-    public String ReadTextFile(String FileName) throws FileNotFoundException {
+    public static String ReadTextFile(String FileName) throws FileNotFoundException {
         String myText = "";
         FileReader inputStream = null;
 
@@ -55,7 +57,7 @@ public class Utility {
      * @throws FileNotFoundException 
      * @author caleb
      */
-    public static JSONObject loadFile(String theFilePath) {
+    public static JSONObject loadJSONFile(String theFilePath) {
         JSONParser parser = new JSONParser();
         JSONObject jsonObject = null;
         Object obj = null;
@@ -87,7 +89,7 @@ public class Utility {
      * for how to create a json object to be saved.
      * @author caleb
      */
-    public static void saveFile(JSONObject theObjectToSave, String theFilePath) {
+    public static void saveJSONFile(JSONObject theObjectToSave, String theFilePath) {
         try(FileWriter file = new FileWriter(theFilePath)){
             file.write(theObjectToSave.toJSONString());
         }
@@ -101,8 +103,9 @@ public class Utility {
      * The jlabel can display html.
      * @param aboutText the text to show 
      * @return returns an html 
+     * @author caleb
      */
-    public String convertToHTML(String aboutText) {
+    public static String convertToHTML(String aboutText) {
         return "<html>" + aboutText
                         .replaceAll("<", "&lt;")
                         .replaceAll(">", "&gt;")
