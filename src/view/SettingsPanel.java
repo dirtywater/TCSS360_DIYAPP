@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -64,10 +63,10 @@ public class SettingsPanel extends JPanel {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 //        this.setSize(size);
         userSettings = new Setting();
-//        name = userSettings.myFirstName; //not working
-        name = "name";
-//        email = userSettings.myEmail; //not working
-        email = "email@something.com";
+        name = userSettings.myFirstName; //not working
+//        name = "name";
+        email = userSettings.myEmail; //not working
+//        email = "email@something.com";
 
         String text = "Current Settings:\nName: ";
         StringBuilder sb = new StringBuilder(text);
@@ -79,7 +78,7 @@ public class SettingsPanel extends JPanel {
         JLabel savedSettings = new JLabel(text);
         this.add(savedSettings);
 
-        JLabel newSettings = new JLabel("\n\nChange Settings:\n");
+        JLabel newSettings = new JLabel(utility.convertToHTML("\n\nChange Settings:\n"));
         //say Name:
         JTextField nameField = new JTextField(name, 10);
         nameField.addActionListener(new ActionListener() {
