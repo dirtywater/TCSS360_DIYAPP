@@ -15,6 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import main.ReadTextFile;
+import model.Utility;
 import view.panel.DisplayPanel;
 
 
@@ -22,7 +23,7 @@ import view.panel.DisplayPanel;
  * The Main frame the user sees. It houses the home screen and its buttons.
  *
  * @author Jim Phan phanjim2@hotmail.com Jim Was here
- * @author Michelle Brown
+ * @author Michelle
  * 
  * @version Apr 29, 2018
  */
@@ -64,6 +65,11 @@ public class MainFrame extends JFrame {
     private Dimension frameDimension;
     
     /**
+     * a class that holds some helper utility methods
+     */
+    private Utility utility;
+    
+    /**
      * The constructor. Initialize the values of the frame and sets up the panels.
      * 
      * @param width Width of the frame.
@@ -97,8 +103,10 @@ public class MainFrame extends JFrame {
         panel.setPreferredSize(new Dimension(width, height));
         
         panel.add(createButton("Home", "Home"));
+        panel.add(createButton("Projects", "Projects"));
         panel.add(createButton("Graph", "Graph"));
         panel.add(createButton("Shop", "Shop"));
+        panel.add(createButton("About", "About"));
         panel.add(createButton("Settings", "Settings"));
         return panel;
     }
@@ -121,12 +129,23 @@ public class MainFrame extends JFrame {
     
     private JPanel createPanel(String name) {
         JPanel panel;
+        utility = new Utility();
         if(name.equals("Home")) {
             panel = new DisplayPanel(Color.BLACK, frameDimension);
+        } else if(name.equals("Projects")){
+            panel = new DisplayPanel(Color.BLUE, frameDimension);
         } else if(name.equals("Graph")){
             panel = new DisplayPanel(Color.GREEN, frameDimension);
         } else if(name.equals("Shop")) {
             panel = new DisplayPanel(Color.RED, frameDimension);
+        } else if(name.equals("About")){
+            String aboutText = "";
+            try {
+                aboutText = utility.ReadTextFile("testAbout.txt");
+            } catch (FileNotFoundException e) { e.printStackTrace(); }
+            panel = new AboutPanel(aboutText);
+        } else if(name.equals("Settings")){
+            panel = new SettingsPanel(frameDimension);
         } else {
             panel = new DisplayPanel(Color.ORANGE, frameDimension);
         }
