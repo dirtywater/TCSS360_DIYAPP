@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -60,7 +61,8 @@ public class SettingsPanel extends JPanel {
      */
     public SettingsPanel (Dimension size) {
         
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        //this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.setLayout(new BorderLayout());
 //        this.setSize(size);
         userSettings = new Setting();
         name = userSettings.myFirstName; //not working
@@ -68,26 +70,33 @@ public class SettingsPanel extends JPanel {
         email = userSettings.myEmail; //not working
 //        email = "email@something.com";
 
-        String text = "Current Settings:\nName: ";
+        String text = "Current Settings\nName: ";
         StringBuilder sb = new StringBuilder(text);
         sb.append(name);
         sb.append("\nEmail: ");
         sb.append(email);
-        Utility utility = new Utility();
-        text = utility.convertToHTML(text);
+        text = Utility.convertToHTML(text);
         JLabel savedSettings = new JLabel(text);
-        this.add(savedSettings);
+        
+        //this.add(savedSettings);
+        this.add(savedSettings,BorderLayout.NORTH);
 
-        JLabel newSettings = new JLabel(utility.convertToHTML("\n\nChange Settings:\n"));
+        JLabel newSettings = new JLabel(Utility.convertToHTML("\n\nChange Settings:\n"));
         //say Name:
         JTextField nameField = new JTextField(name, 10);
+        
+        //this vvv
+        nameField.setSize(200,50);
         nameField.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 name = nameField.getText();
             }
         });
-        newSettings.add(nameField);
+        
+        this.add(nameField, BorderLayout.CENTER);
+        
+        //newSettings.add(nameField,BorderLayout.LINE_END);
         //say Email:
         JTextField emailField = new JTextField(userSettings.myEmail, 10);
         emailField.addActionListener(new ActionListener() {
@@ -96,17 +105,20 @@ public class SettingsPanel extends JPanel {
                 email = emailField.getText();
             }
         });
-        newSettings.add(emailField);
+        //newSettings.add(emailField);
+        newSettings.add(emailField, BorderLayout.SOUTH);
         this.add(newSettings);
 
         JButton saveButton = new JButton("save");
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                userSettings.saveSettings(name, email);
+                //userSettings.saveSettings(name, email);
+                userSettings.saveSettings(nameField.getText()
+                                    , emailField.getText());
             }
         });
-        this.add(saveButton);
+        this.add(saveButton,BorderLayout.PAGE_END);
 
         this.setBorder(new LineBorder(Color.BLACK));
     }

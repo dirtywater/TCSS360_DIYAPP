@@ -35,8 +35,7 @@ public class AboutPanel extends JPanel {
     public AboutPanel(String aboutText) { 
         
 //        aboutText = convertToHTML(aboutText);
-        Utility utility = new Utility();
-        aboutText = utility.convertToHTML(aboutText);
+        aboutText = Utility.convertToHTML(aboutText);
         JLabel about = new JLabel(aboutText, SwingConstants.CENTER);
         this.add(about);
         this.setBorder(new LineBorder(Color.BLACK));
