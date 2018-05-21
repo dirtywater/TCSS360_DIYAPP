@@ -6,7 +6,6 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -43,15 +42,13 @@ public class SettingsPanel extends JPanel {
      * The user's saved name
      */
     private String name;
-    
+
     /**
      * The user's saved email
      */
     private String email;
-    
-    
-    //where the file should be saved
-    private final String SETTING_FILE_PATH = "userSettings.json";
+
+
 
     /**
      * The constructor that creates the panel where the user can
@@ -60,66 +57,37 @@ public class SettingsPanel extends JPanel {
      * @param size
      */
     public SettingsPanel (Dimension size) {
-        
-        //this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setLayout(new BorderLayout());
-//        this.setSize(size);
         userSettings = new Setting();
-        name = userSettings.myFirstName; //not working
-//        name = "name";
-        email = userSettings.myEmail; //not working
-//        email = "email@something.com";
-
-        String text = "Current Settings\nName: ";
+        name = userSettings.myFirstName;
+        email = userSettings.myEmail;
+        //CURRENT SETTINGS
+        String text = "CURRENT SETTINGS\n\nName: ";
         StringBuilder sb = new StringBuilder(text);
         sb.append(name);
         sb.append("\nEmail: ");
         sb.append(email);
-        text = Utility.convertToHTML(text);
+        sb.append("\n\n\n\n");
+        text = Utility.convertToHTML(sb.toString());
         JLabel savedSettings = new JLabel(text);
-        
-        //this.add(savedSettings);
         this.add(savedSettings,BorderLayout.NORTH);
-
-        JLabel newSettings = new JLabel(Utility.convertToHTML("\n\nChange Settings:\n"));
-        //say Name:
+        //NEW SETTINGS
+        JPanel newSettings = new JPanel(new BorderLayout());
+        newSettings.add(new JLabel(Utility.convertToHTML("CHANGE SETTINGS\n\n")), BorderLayout.NORTH);
         JTextField nameField = new JTextField(name, 10);
-        
-        //this vvv
-        nameField.setSize(200,50);
-        nameField.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                name = nameField.getText();
-            }
-        });
-        
-        this.add(nameField, BorderLayout.CENTER);
-        
-        //newSettings.add(nameField,BorderLayout.LINE_END);
-        //say Email:
+        newSettings.add(nameField, BorderLayout.CENTER);
         JTextField emailField = new JTextField(userSettings.myEmail, 10);
-        emailField.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                email = emailField.getText();
-            }
-        });
-        //newSettings.add(emailField);
         newSettings.add(emailField, BorderLayout.SOUTH);
-        this.add(newSettings);
-
+        this.add(newSettings, BorderLayout.CENTER);
+        //SAVE BUTTON
         JButton saveButton = new JButton("save");
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //userSettings.saveSettings(name, email);
-                userSettings.saveSettings(nameField.getText()
-                                    , emailField.getText());
+                userSettings.saveSettings(nameField.getText(), emailField.getText());
             }
         });
-        this.add(saveButton,BorderLayout.PAGE_END);
-
+        this.add(saveButton,BorderLayout.SOUTH);
         this.setBorder(new LineBorder(Color.BLACK));
     }
 
