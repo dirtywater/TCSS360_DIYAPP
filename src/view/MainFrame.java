@@ -23,7 +23,6 @@ import view.panel.DisplayPanel;
  * The Main frame the user sees. It houses the home screen and its buttons.
  *
  * @author Jim Phan phanjim2@hotmail.com Jim Was here
- * @author Michelle
  * 
  * @version Apr 29, 2018
  */
@@ -95,6 +94,14 @@ public class MainFrame extends JFrame {
         displayPanel.add(dynamicPanel);
     }
     
+    /**
+     * Creates the panel that will hold all of the buttons to navigate to different pages.
+     * 
+     * @param width
+     * @param height
+     * @return
+     * @throws IOException
+     */
     private JPanel createSidePanel(int width, int height) throws IOException {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
@@ -111,9 +118,17 @@ public class MainFrame extends JFrame {
         return panel;
     }
     
+    /**
+     * Creates a specific button for the SidePanel menu that will be used
+     * to access its corresponding "page".
+     * 
+     * @param name
+     * @param icon
+     * @return
+     * @throws IOException
+     */
     private JButton createButton(String name, String icon) throws IOException {
         JButton button = new JButton(name);
-
         //Image image = ImageIO.read(new File(icon));
         button.addActionListener(new ActionListener() {
             @Override
@@ -127,6 +142,13 @@ public class MainFrame extends JFrame {
         return button;
     }
     
+    /**
+     * A pseudo DisplayPanel factory that creates the panel to display
+     * based on the button pressed in the SidePanel.
+     * 
+     * @param name
+     * @return
+     */
     private JPanel createPanel(String name) {
         JPanel panel;
         if(name.equals("Home")) {
@@ -141,7 +163,10 @@ public class MainFrame extends JFrame {
             String aboutText = "";
             try {
                 aboutText = Utility.ReadTextFile("testAbout.txt");
-            } catch (FileNotFoundException e) { e.printStackTrace(); }
+            } catch (FileNotFoundException e) {
+                aboutText = "file not found";
+                e.printStackTrace();
+            }
             panel = new AboutPanel(aboutText);
         } else if(name.equals("Settings")){
             panel = new SettingsPanel(frameDimension);
