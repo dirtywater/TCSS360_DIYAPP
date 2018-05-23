@@ -28,6 +28,7 @@ public final class Main {
 			public void run() {
 				try {
                     new GUI().start();
+                    
                 }
                 catch (IOException e) {
                     // TODO Auto-generated catch block
