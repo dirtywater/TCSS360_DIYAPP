@@ -36,7 +36,6 @@ public class Utility {
         try {
             BufferedReader bufferedStream = new BufferedReader(inputStream);
             String line;
-            int count = 0;
             while ((line = bufferedStream.readLine()) != null) {
                 myText += line + "\n";
             }
@@ -47,6 +46,10 @@ public class Utility {
         }
         return myText;
     }
+    
+    
+    
+    
     
     /**
      * load a file that contains a json object and return the json object saved in that file.
@@ -90,6 +93,8 @@ public class Utility {
      * @author caleb
      */
     public static void saveJSONFile(JSONObject theObjectToSave, String theFilePath) {
+        System.out.println("saving:"+theObjectToSave);
+        System.out.println("saving jString:"+theObjectToSave.toJSONString());
         try(FileWriter file = new FileWriter(theFilePath)){
             file.write(theObjectToSave.toJSONString());
         }
