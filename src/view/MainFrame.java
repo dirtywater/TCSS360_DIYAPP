@@ -15,6 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import main.ReadTextFile;
+import model.Utility;
 import view.panel.DisplayPanel;
 
 
@@ -22,7 +23,6 @@ import view.panel.DisplayPanel;
  * The Main frame the user sees. It houses the home screen and its buttons.
  *
  * @author Jim Phan phanjim2@hotmail.com Jim Was here
- * @author Michelle Brown
  * 
  * @version Apr 29, 2018
  */
@@ -64,6 +64,11 @@ public class MainFrame extends JFrame {
     private Dimension frameDimension;
     
     /**
+     * a class that holds some helper utility methods
+     */
+    private Utility utility;
+    
+    /**
      * The constructor. Initialize the values of the frame and sets up the panels.
      * 
      * @param width Width of the frame.
@@ -89,6 +94,14 @@ public class MainFrame extends JFrame {
         displayPanel.add(dynamicPanel);
     }
     
+    /**
+     * Creates the panel that will hold all of the buttons to navigate to different pages.
+     * 
+     * @param width
+     * @param height
+     * @return
+     * @throws IOException
+     */
     private JPanel createSidePanel(int width, int height) throws IOException {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
@@ -97,15 +110,25 @@ public class MainFrame extends JFrame {
         panel.setPreferredSize(new Dimension(width, height));
         
         panel.add(createButton("Home", "Home"));
+        panel.add(createButton("Projects", "Projects"));
         panel.add(createButton("Graph", "Graph"));
         panel.add(createButton("Shop", "Shop"));
+        panel.add(createButton("About", "About"));
         panel.add(createButton("Settings", "Settings"));
         return panel;
     }
     
+    /**
+     * Creates a specific button for the SidePanel menu that will be used
+     * to access its corresponding "page".
+     * 
+     * @param name
+     * @param icon
+     * @return
+     * @throws IOException
+     */
     private JButton createButton(String name, String icon) throws IOException {
         JButton button = new JButton(name);
-
         //Image image = ImageIO.read(new File(icon));
         button.addActionListener(new ActionListener() {
             @Override
@@ -119,14 +142,34 @@ public class MainFrame extends JFrame {
         return button;
     }
     
+    /**
+     * A pseudo DisplayPanel factory that creates the panel to display
+     * based on the button pressed in the SidePanel.
+     * 
+     * @param name
+     * @return
+     */
     private JPanel createPanel(String name) {
         JPanel panel;
         if(name.equals("Home")) {
             panel = new DisplayPanel(Color.BLACK, frameDimension);
+        } else if(name.equals("Projects")){
+            panel = new DisplayPanel(Color.BLUE, frameDimension);
         } else if(name.equals("Graph")){
             panel = new DisplayPanel(Color.GREEN, frameDimension);
         } else if(name.equals("Shop")) {
             panel = new DisplayPanel(Color.RED, frameDimension);
+        } else if(name.equals("About")){
+            String aboutText = "";
+            try {
+                aboutText = Utility.ReadTextFile("testAbout.txt");
+            } catch (FileNotFoundException e) {
+                aboutText = "file not found";
+                e.printStackTrace();
+            }
+            panel = new AboutPanel(aboutText);
+        } else if(name.equals("Settings")){
+            panel = new SettingsPanel(frameDimension);
         } else {
             panel = new DisplayPanel(Color.ORANGE, frameDimension);
         }

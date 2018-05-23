@@ -28,7 +28,8 @@ public class Setting {
      * @author caleb
      */
     private void loadSettings() {
-        JSONObject jObj = Utility.loadFile(SETTING_FILE_PATH);
+        JSONObject jObj = Utility.loadJSONFile(SETTING_FILE_PATH);
+        //if the jObj is null there were no previous settings
         if(jObj != null) {
              myFirstName = (String) jObj.get(KEY_NAME);
              myEmail = (String) jObj.get(KEY_EMAIL);
@@ -46,8 +47,8 @@ public class Setting {
         JSONObject obj = new JSONObject();
         obj.put(KEY_NAME, name);
         obj.put(KEY_EMAIL, email);
-        
-        Utility.saveFile(obj, SETTING_FILE_PATH);
+        System.out.println(name + "." + email);
+        Utility.saveJSONFile(obj, SETTING_FILE_PATH);
     }
 }
 

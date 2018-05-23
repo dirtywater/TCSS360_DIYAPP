@@ -6,6 +6,8 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
+import model.Utility;
+
 /**
  * Panel to display about information from the string passed in.
  * 
@@ -32,23 +34,11 @@ public class AboutPanel extends JPanel {
      */
     public AboutPanel(String aboutText) { 
         
-        aboutText = convertToHTML(aboutText);
+//        aboutText = convertToHTML(aboutText);
+        aboutText = Utility.convertToHTML(aboutText);
         JLabel about = new JLabel(aboutText, SwingConstants.CENTER);
         this.add(about);
         this.setBorder(new LineBorder(Color.BLACK));
-    }
-
-    /**
-     * The jlabel can display html.
-     * @param aboutText the text to show 
-     * @return returns an html 
-     */
-    private String convertToHTML(String aboutText) {
-        return "<html>" + aboutText
-                        .replaceAll("<", "&lt;")
-                        .replaceAll(">", "&gt;")
-                        .replaceAll("\n", "<br/>")
-                        + "</html>";
     }
     
 }
