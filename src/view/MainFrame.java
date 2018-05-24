@@ -14,6 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import model.Utility;
+import model.ShopSim;
 import view.panel.AboutPanel;
 import view.panel.DisplayPanel;
 import view.panel.SettingsPanel;
@@ -154,6 +155,13 @@ public class MainFrame extends JFrame {
             panel = new DisplayPanel(Color.GREEN, frameDimension);
         } else if(name.equals("Shop")) {
             panel = new DisplayPanel(Color.RED, frameDimension);
+            try {
+                ShopSim.getMaterials("simstore.CSV");
+            }
+            catch (FileNotFoundException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
         } else if(name.equals("About")){
             String aboutText = "";
             try {
