@@ -37,7 +37,6 @@ public class ReadTextFile {
         try {
             BufferedReader bufferedStream = new BufferedReader(inputStream);
             String line;
-            int count = 0;
             while ((line = bufferedStream.readLine()) != null) {
                 myText += line + "\n";
             }
