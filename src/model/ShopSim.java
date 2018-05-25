@@ -10,22 +10,22 @@ import java.util.List;
 
 public class ShopSim {
     
-    private static List<Material> myMaterials = new ArrayList<Material>();
+    static List<Material> myMaterials = new ArrayList<Material>();
     
     
     public String myText = "";
-
-//    
-//    public ShopSim() {
-//        try {
-//            getMaterials("simstore.CSV");
-//        }
-//        catch (FileNotFoundException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        } 
-//        
-//    }
+ 
+    
+    public ShopSim(String theStoreName) {
+        try {
+            getMaterials(theStoreName);
+        }
+        catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } 
+        
+    }
     /**
      * Reads the contents of a file, and stores them in a public variable.
      * 
@@ -65,5 +65,17 @@ public class ShopSim {
             mat.toString();       
         }
         
+    }
+    
+    public List<Material> getMyMaterials() {
+        
+        return myMaterials;
+    }
+    public String toString() {
+        String result = "";
+        for (Material mat: myMaterials) {
+            result += mat.toString();       
+        }
+        return result;
     }
 }
