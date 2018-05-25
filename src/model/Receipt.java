@@ -1,5 +1,5 @@
 package model;
 
-public class Receipt {
+public class Receipt{
 
 }

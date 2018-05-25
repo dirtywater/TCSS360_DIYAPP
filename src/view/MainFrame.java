@@ -12,11 +12,12 @@ import java.io.IOException;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import main.ReadTextFile;
 import model.Utility;
+import model.ShopSim;
+import view.panel.AboutPanel;
 import view.panel.DisplayPanel;
+import view.panel.SettingsPanel;
 
 
 /**
@@ -62,11 +63,6 @@ public class MainFrame extends JFrame {
      * The dimension of the frame.
      */
     private Dimension frameDimension;
-    
-    /**
-     * a class that holds some helper utility methods
-     */
-    private Utility utility;
     
     /**
      * The constructor. Initialize the values of the frame and sets up the panels.
@@ -159,6 +155,13 @@ public class MainFrame extends JFrame {
             panel = new DisplayPanel(Color.GREEN, frameDimension);
         } else if(name.equals("Shop")) {
             panel = new DisplayPanel(Color.RED, frameDimension);
+            try {
+                ShopSim.getMaterials("simstore.CSV");
+            }
+            catch (FileNotFoundException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
         } else if(name.equals("About")){
             String aboutText = "";
             try {

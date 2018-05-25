@@ -13,6 +13,11 @@ import javax.swing.JPanel;
  */
 public class DisplayPanel extends JPanel {
 
+    /**
+     * generated serial id.
+     */
+    private static final long serialVersionUID = -641610218954440272L;
+
     public DisplayPanel(Color color, Dimension dimension) {
         this.setBackground(color);
         int width = (int) (dimension.width * 0.85);
