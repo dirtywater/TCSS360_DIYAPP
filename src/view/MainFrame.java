@@ -3,6 +3,7 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,11 +13,13 @@ import java.io.IOException;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import main.ReadTextFile;
 import model.Utility;
+import model.ShopSim;
+import view.panel.AboutPanel;
 import view.panel.DisplayPanel;
+import view.panel.SettingsPanel;
+import view.panel.ShopPanel;
 
 
 /**
@@ -62,11 +65,6 @@ public class MainFrame extends JFrame {
      * The dimension of the frame.
      */
     private Dimension frameDimension;
-    
-    /**
-     * a class that holds some helper utility methods
-     */
-    private Utility utility;
     
     /**
      * The constructor. Initialize the values of the frame and sets up the panels.
@@ -151,6 +149,7 @@ public class MainFrame extends JFrame {
      */
     private JPanel createPanel(String name) {
         JPanel panel;
+        
         if(name.equals("Home")) {
             panel = new DisplayPanel(Color.BLACK, frameDimension);
         } else if(name.equals("Projects")){
@@ -158,7 +157,12 @@ public class MainFrame extends JFrame {
         } else if(name.equals("Graph")){
             panel = new DisplayPanel(Color.GREEN, frameDimension);
         } else if(name.equals("Shop")) {
-            panel = new DisplayPanel(Color.RED, frameDimension);
+            
+            ShopSim testStore = new ShopSim("simstore.CSV");
+            //panel = new DisplayPanel(Color.RED, frameDimension);
+            
+            panel = new ShopPanel(testStore);
+            
         } else if(name.equals("About")){
             String aboutText = "";
             try {
@@ -167,7 +171,9 @@ public class MainFrame extends JFrame {
                 aboutText = "file not found";
                 e.printStackTrace();
             }
+            
             panel = new AboutPanel(aboutText);
+            
         } else if(name.equals("Settings")){
             panel = new SettingsPanel(frameDimension);
         } else {

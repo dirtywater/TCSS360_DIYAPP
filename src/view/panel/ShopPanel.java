@@ -1,11 +1,16 @@
-package view;
+package view.panel;
 
 import java.awt.Color;
+import java.awt.GridLayout;
+
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
+import model.Material;
+import model.ShopSim;
 import model.Utility;
 
 /**
@@ -14,7 +19,7 @@ import model.Utility;
  * @author Caleb Wheeler
  * @version Apr 28, 2018
  */
-public class AboutPanel extends JPanel {
+public class ShopPanel extends JPanel {
 
     /**
      * Serial code of the class.
@@ -26,19 +31,28 @@ public class AboutPanel extends JPanel {
      */
     public static final String FRAME_TITLE = "About";
     
+    
+    GridLayout thisLayout = new GridLayout(0,3);
+    
     /**
      * Takes in text to display in a panel and a minimum size the panel can be displayed in.
      * @param aboutText the text to display
      * @param width minimum width of the panel
      * @param height minimum height of the panel
      */
-    public AboutPanel(String aboutText) { 
+    public ShopPanel(ShopSim testStore) {
         
-//        aboutText = convertToHTML(aboutText);
-        aboutText = Utility.convertToHTML(aboutText);
-        JLabel about = new JLabel(aboutText, SwingConstants.CENTER);
-        this.add(about);
+        String aboutText;
+        
+        for (Material mat: testStore.getMyMaterials()) {
+            aboutText = Utility.convertToHTML(mat.toString());
+            JButton about = new JButton(aboutText);
+            this.add(about);
+        }
+        this.setLayout(thisLayout);
+        this.setAutoscrolls(true);
         this.setBorder(new LineBorder(Color.BLACK));
+        
     }
     
 }
