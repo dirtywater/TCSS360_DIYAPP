@@ -19,6 +19,6 @@ public class Material {
     
     public String toString() {
         
-       return  myName + ", " + myPrice + ", " + myMeasurment.toString();
+       return  myName + "\nCost = " + myPrice + "\nMeasurment = " + myMeasurment.toString() + "\n\n";
     }
 }
