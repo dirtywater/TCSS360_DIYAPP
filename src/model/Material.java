@@ -39,6 +39,11 @@ public class Material {
     
     /**
      * Inner class that defines the way a Material can be measured.
+     * Assumes that if we are using the imperial standard,
+     * measurements will be in inches (length) or ounces (weight),
+     * and if we are using the metric standard,
+     * measurements will be in cm (length) or grams (weight). 
+     * Default standard is imperial.
      * 
      * @author Michelle
      */
@@ -56,6 +61,15 @@ public class Material {
 
         double weight;
 
+        /**
+         * Constructor.
+         * 
+         * @param measurementType
+         * @param width
+         * @param height
+         * @param depth
+         * @param weight
+         */
         private Measurement(MeasurementType measurementType, double width,
                             double height, double depth, double weight) {
             setMeasurements(measurementType, width, height, depth, weight);
@@ -66,11 +80,11 @@ public class Material {
          * Will set the measurement values based on the type of measurement being used.
          * This is to make sure that no values get set that shouldn't be set.
          * 
-         * @param measurementType2
-         * @param width2
-         * @param height2
-         * @param depth2
-         * @param weight2
+         * @param measurementType
+         * @param width
+         * @param height
+         * @param depth
+         * @param weight
          */
         public void setMeasurements(MeasurementType measurementType, double width,
                                      double height, double depth, double weight) {
@@ -95,7 +109,7 @@ public class Material {
          * and visa versa.
          */
         private void convertStandards() {
-            if (measurementType == MeasurementType.weight) { //assumes we are using either lbs or grams
+            if (measurementType == MeasurementType.weight) {
                 weight = convert(weight, false);
             } else {
                 width = convert(width, true);
@@ -107,7 +121,8 @@ public class Material {
         }
         
         /**
-         * Will help change the standard being used and return the new value;
+         * Will help change the standard being used and return
+         * the new value of the unit of measurement.
          * 
          * @param num
          * @param typeLength
@@ -117,9 +132,9 @@ public class Material {
             double toMetric;
             double toImperial;
             if (typeLength) {
-                toMetric = 2.54;
+                toMetric = 2.54; //converts from inches to cm
             } else {
-                toMetric = 28.3495;
+                toMetric = 28.3495; //converts from ounces to grams
             }
             toImperial = 1/toMetric;
             if (imperial) {

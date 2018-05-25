@@ -50,4 +50,5 @@ public class Receipt {
     public String toString() {
         return "Material: title\n cost: " + cost + "\n date purchased: " + date.toString() + "\n note:\n" + note;
     }
+    
 }
