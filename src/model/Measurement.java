@@ -19,8 +19,8 @@ public class Measurement {
     
     public String toString() {
         
-        return  myWidth + ", " + myHeight + ", " + myDepth + ", " + myWeight + "\n";
-     }
+        return  myWidth + ", " + myHeight + ", " + myDepth + ", " + myWeight;
+    }
     
     
 }
