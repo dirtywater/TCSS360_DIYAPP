@@ -155,7 +155,14 @@ public class Project implements Serializable{
         }
         return total;
     }
-    
+
+    /**
+     * Will return how long it will take (in years) for a project to pay for itself.
+     * returns -1.0 if it never will.
+     * TODO figure out how this works
+     * 
+     * @return
+     */
     public Double getCostOverTime() {
         //maybe date that the project pays off in heating efficiency?
         return null;
