@@ -4,13 +4,17 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -107,12 +111,12 @@ public class MainFrame extends JFrame {
         panel.setBackground(Color.BLACK);
         panel.setPreferredSize(new Dimension(width, height));
         
-        panel.add(createButton("Home", "Home"));
-        panel.add(createButton("Projects", "Projects"));
-        panel.add(createButton("Graph", "Graph"));
-        panel.add(createButton("Shop", "Shop"));
-        panel.add(createButton("About", "About"));
-        panel.add(createButton("Settings", "Settings"));
+        panel.add(createButton("Home", "home_button.png"));
+        panel.add(createButton("Projects", "projects_button.png"));
+        panel.add(createButton("Graph", "efficiency_button.png"));
+        panel.add(createButton("Shop", "shop_button.png"));
+        panel.add(createButton("About", "about_button.png"));
+        panel.add(createButton("Settings", "settings_button.png"));
         return panel;
     }
     
@@ -124,10 +128,15 @@ public class MainFrame extends JFrame {
      * @param icon
      * @return
      * @throws IOException
+     * 
+     * @author Jim
+     * @author Michelle
      */
     private JButton createButton(String name, String icon) throws IOException {
-        JButton button = new JButton(name);
-        //Image image = ImageIO.read(new File(icon));
+        Image image = ImageIO.read(new File(icon));
+        image = image.getScaledInstance(75, 75, java.awt.Image.SCALE_SMOOTH);
+        ImageIcon button_image = new ImageIcon(image);
+        JButton button = new JButton(button_image);
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
