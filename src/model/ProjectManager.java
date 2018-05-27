@@ -8,6 +8,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ProjectManager implements Serializable{
     
@@ -16,25 +17,56 @@ public class ProjectManager implements Serializable{
      */
     private static final long serialVersionUID = 1591199260729617379L;
 
-    private static ArrayList<Project> myProjects = new ArrayList<Project>();
+    private static List<Project> myProjects = new ArrayList<Project>();
+    
+    private static Integer myCurrentProjectIndex = null;
     
     //where the file should be saved
-    //private final String PROJECT_FILE_PATH = "projects.json";
-    private final static String PROJECT_FILE_PATH = "projects.ser";
+    private final static String PROJECT_FILE_PATH = "projects.seri";
     
-    //constants for json keys
-    //private final String KEY_PROJECTS = "Projects";
-
+    //this is a helper class
     private ProjectManager() {}
     
     /**
-     * used to get a particular project, might return null if that project doesn't exist.
+     * used to get a particular project, return null if that project doesn't exist.
      * @param index
      * @return the project at index
      * @author caleb
      */
     public static Project getProject(int index) {
-        return myProjects.get(index);
+        try {
+            return myProjects.get(index);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            return null;
+        }
+        
+    }
+    
+    public static Integer getCurrentProjectIndex() {
+        return myCurrentProjectIndex;
+    }
+    
+    /**
+     * use to set the project as the current project.
+     * @param theProject
+     * @author caleb
+     */
+    public static void setCurrentProjectIndex(Project theProject) {
+        Integer index = ProjectManager.getIndex(theProject);
+        if(index != null) {
+            setCurrentProjectIndex(index);
+        }
+        
+    }
+    
+    /**
+     * set the index to for the current project.
+     * @param index
+     * @author caleb
+     */
+    public static void setCurrentProjectIndex(Integer index) {
+        if(ProjectManager.getProject(index) != null)
+            myCurrentProjectIndex = index;
     }
     
     /**
@@ -55,6 +87,7 @@ public class ProjectManager implements Serializable{
     /**
      * gives total number of projects.
      * @return
+     * @author caleb
      */
     public static int count() {
         return myProjects.size();
@@ -71,7 +104,6 @@ public class ProjectManager implements Serializable{
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(myProjects);
             oos.close();
-
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -109,6 +141,7 @@ public class ProjectManager implements Serializable{
     public static void addProject(Project theProject) {
         myProjects.add(theProject);
         saveProjects();
+        myCurrentProjectIndex = ProjectManager.getIndex(theProject);
     }
     
     /**
@@ -117,8 +150,73 @@ public class ProjectManager implements Serializable{
      * @author caleb
      */
     public static void removeProject(Project theProject) {
+        int index = ProjectManager.getIndex(theProject);
+        if(myCurrentProjectIndex != null) { //if there is a current project and it is at this index, =null
+            if(index == myCurrentProjectIndex) {
+                myCurrentProjectIndex = null;
+            }
+        }
         myProjects.remove(theProject);
         saveProjects();
+    }
+    
+    /**
+     * update project from original old project to have these new properties.
+     * @param theOldProject
+     * @param theTitle
+     * @param theMaterials
+     * @param theReceipts
+     * @author caleb
+     */
+    public static void updateProject(Project theOldProject, String theTitle, 
+                                     List<Material> theMaterials, List<Receipt> theReceipts) {
+        for(int i = 0; i < myProjects.size(); i++) {
+            if(myProjects.get(i).equals(theOldProject)) {
+                Project p = myProjects.get(i);
+                p.changeProjectTitle(theTitle);
+                p.replaceMaterials(theMaterials);
+                p.replaceReceipts(theReceipts);
+                myCurrentProjectIndex = ProjectManager.getIndex(p);
+            }
+        }
+        ProjectManager.saveProjects();
+    }
+    
+    /**
+     * update a project by its index.
+     * @param index
+     * @param theTitle
+     * @param theMaterials
+     * @param theReceipts
+     * @author caleb
+     */
+    public static void updateProject(Integer index, String theTitle,
+                                     List<Material> theMaterials, List<Receipt> theReceipts) {
+        Project p = ProjectManager.getProject(index);
+        ProjectManager.updateProject(p, theTitle, theMaterials, theReceipts);
+    }
+    
+    /**
+     * update a project by index to have the materials and receipts and title of theProject
+     * @param index
+     * @param theProject
+     * @author caleb
+     */
+    public static void updateProject(Integer index, Project theProject) {
+        updateProject(index, theProject.getTitle(), theProject.getMaterials(), theProject.getReceipts());
+    }
+    
+    /**
+     * return a deep clone of myProjects.
+     * @return
+     * @author caleb
+     */
+    public static List<Project> getProjects() {
+        List<Project> projects = new ArrayList<Project>();
+        for(int i = 0; i < myProjects.size(); i++) {
+            projects.add(myProjects.get(i));
+        }
+        return projects;
     }
     
 }
