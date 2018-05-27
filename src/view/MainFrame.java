@@ -15,9 +15,11 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import model.Utility;
+import model.ProjectManager;
 import model.ShopSim;
 import view.panel.AboutPanel;
 import view.panel.DisplayPanel;
+import view.panel.ProjectPanel;
 import view.panel.SettingsPanel;
 import view.panel.ShopPanel;
 
@@ -75,7 +77,7 @@ public class MainFrame extends JFrame {
      */
     public MainFrame(int width, int height) throws IOException {
         Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
-        
+        ProjectManager.loadProjects();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
         //setSize(new Dimension(width, height));
@@ -127,6 +129,7 @@ public class MainFrame extends JFrame {
      */
     private JButton createButton(String name, String icon) throws IOException {
         JButton button = new JButton(name);
+        //button.setPreferredSize(new Dimension(button.getHeight(), dynamicPanel.getWidth()));
         //Image image = ImageIO.read(new File(icon));
         button.addActionListener(new ActionListener() {
             @Override
@@ -153,16 +156,15 @@ public class MainFrame extends JFrame {
         if(name.equals("Home")) {
             panel = new DisplayPanel(Color.BLACK, frameDimension);
         } else if(name.equals("Projects")){
-            panel = new DisplayPanel(Color.BLUE, frameDimension);
+            //panel = new DisplayPanel(Color.BLUE, frameDimension);
+            panel = new ProjectPanel(new Dimension((int)(frameDimension.getWidth()*(1-SIDE*1.4)),
+                                      (int)(frameDimension.getHeight()*(REDUCTION))));
         } else if(name.equals("Graph")){
             panel = new DisplayPanel(Color.GREEN, frameDimension);
         } else if(name.equals("Shop")) {
-            
-            ShopSim testStore = new ShopSim("simstore.CSV");
+            ShopSim testStore = new ShopSim();
             //panel = new DisplayPanel(Color.RED, frameDimension);
-            
             panel = new ShopPanel(testStore);
-            
         } else if(name.equals("About")){
             String aboutText = "";
             try {
@@ -181,4 +183,6 @@ public class MainFrame extends JFrame {
         }
         return panel;
     }
+    
+    
 }

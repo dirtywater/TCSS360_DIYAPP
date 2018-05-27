@@ -2,22 +2,23 @@ package view.panel;
 
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
+import javax.swing.JScrollPane;
 import javax.swing.border.LineBorder;
 
 import model.Material;
+import model.Project;
+import model.ProjectManager;
 import model.ShopSim;
 import model.Utility;
 
 /**
- * Panel to display about information from the string passed in.
  * 
- * @author Caleb Wheeler
- * @version Apr 28, 2018
+ * @author David
  */
 public class ShopPanel extends JPanel {
 
@@ -29,7 +30,7 @@ public class ShopPanel extends JPanel {
     /**
      * Used to set the frame's title.
      */
-    public static final String FRAME_TITLE = "About";
+    public static final String FRAME_TITLE = "Shop Sim";
     
     
     GridLayout thisLayout = new GridLayout(0,3);
@@ -39,20 +40,33 @@ public class ShopPanel extends JPanel {
      * @param aboutText the text to display
      * @param width minimum width of the panel
      * @param height minimum height of the panel
+     * @author David
      */
     public ShopPanel(ShopSim testStore) {
         
-        String aboutText;
+        String materialText;
+
+        
         
         for (Material mat: testStore.getMyMaterials()) {
-            aboutText = Utility.convertToHTML(mat.toString());
-            JButton about = new JButton(aboutText);
-            this.add(about);
+            materialText = Utility.convertToHTML(mat.toString());
+            JButton btnMaterial = new JButton(materialText);
+            btnMaterial.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    Integer index = ProjectManager.getCurrentProjectIndex();
+                    Project p = ProjectManager.getProject(index);
+                    p.addMaterial(mat);
+                    ProjectManager.updateProject(index, p.getTitle(), p.getMaterials(), p.getReceipts());
+                }
+                
+            });
+            this.add(btnMaterial);
         }
         this.setLayout(thisLayout);
         this.setAutoscrolls(true);
         this.setBorder(new LineBorder(Color.BLACK));
-        
     }
     
 }
+

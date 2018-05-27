@@ -1,6 +1,8 @@
 package model;
 
-public class Measurement {
+import java.io.Serializable;
+
+public class Measurement  implements Serializable {
 
     
     
@@ -17,9 +19,11 @@ public class Measurement {
         myWeight = theWeight;
     }
     
+    //edited by caleb
     public String toString() {
         
-        return  myWidth + ", " + myHeight + ", " + myDepth + ", " + myWeight;
+        return  "Width: "+ myWidth + "\nHeight:" + myHeight 
+                        +" Depth: "+ myDepth +"\nWeight: " + myWeight;
     }
     
     

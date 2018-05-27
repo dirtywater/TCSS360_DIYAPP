@@ -1,8 +1,10 @@
 package model;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Project implements Serializable{
     
@@ -17,15 +19,6 @@ public class Project implements Serializable{
     private ArrayList<Material> myMaterials = new ArrayList<Material>();
     private ArrayList<Receipt> myReceipts = new ArrayList<Receipt>();
   //graph and price estimate can be obtained with buildGraph() and estimateTotal()
-
-    //key values used with json
-    /*private final String KEY_TITLE = "Project Title";
-    private final String KEY_PROJECT = "Project";
-    private final String KEY_DATE_MODIFIED = "Date Modified";
-    private final String KEY_DATE_CREATED = "Date Created";
-    private final String KEY_MATERIALS = "Materials";
-    private final String KEY_RECEIPTS = "Receipts";*/
-    
     
     /**
      * create a project with a specified title and no materials.
@@ -36,6 +29,18 @@ public class Project implements Serializable{
         this(projectTitle, new ArrayList<Material>(), new ArrayList<Receipt>());
     }
     
+    @Override
+    public String toString() {
+        String project = "Title: " + myTitle;
+        for(int i  = 0; i < myMaterials.size(); i++) {
+            project += " Material: " + myMaterials.get(i);
+        }
+        for(int i = 0; i < myReceipts.size(); i++) {
+            project += " Receipt: " + myReceipts.get(i);
+        }
+        return project;
+    }
+
     /**
      * create a project with this title and these materials.
      * The project will have a start Date for the current date.
@@ -66,20 +71,69 @@ public class Project implements Serializable{
         return myTitle;
     }
     
-    public Date getDateLastModified() {
-        return myDateLastModified;
+    public String getDateLastModified() {
+        SimpleDateFormat dt = new SimpleDateFormat("MM/dd/yy");
+        String date = dt.format(myDateLastModified);
+        return date;
     }
     
-    public Date getDateCreated() {
-        return myDateCreated;
+    public String
+    getDateCreated() {
+        SimpleDateFormat dt = new SimpleDateFormat("MM/dd/yy");
+        String date = dt.format(myDateCreated);
+        return date;
     }
     
+    /**
+     * replace all of the projects materials with these.
+     * @return
+     * @author caleb
+     */
+    public void replaceMaterials(List<Material> theMaterials) {
+        myMaterials = new ArrayList<Material>();
+        for(int i = 0; i < theMaterials.size(); i++) {
+            myMaterials.add(theMaterials.get(i));
+        }
+        myDateLastModified = new Date();
+    }
+    
+    /**
+     * replace all of the project receipts with these.
+     * @param theReceipts
+     * @author caleb
+     */
+    public void replaceReceipts(List<Receipt> theReceipts) {
+        myReceipts = new ArrayList<Receipt>();
+        for(int i = 0; i < theReceipts.size(); i++) {
+            myReceipts.add(theReceipts.get(i));
+        }
+        myDateLastModified = new Date();
+    }
+    
+    /**
+     * return a deep clone of the materials
+     * @return
+     * @author caleb
+     */
     public  ArrayList<Material> getMaterials() {
-        return myMaterials;
+        ArrayList<Material> copyOfMaterials = new ArrayList<Material>();
+        for(int i = 0; i < myMaterials.size(); i++) {
+            copyOfMaterials.add(myMaterials.get(i));
+        }
+        return copyOfMaterials;
     }
     
+    /**
+     * return a deep clone of the receipts.
+     * @return
+     * @author caleb
+     */
     public ArrayList<Receipt> getReceipts() {
-        return myReceipts;
+        ArrayList<Receipt> copyOfReceipts = new ArrayList<Receipt>();
+        for(int i = 0; i < myReceipts.size(); i++) {
+            copyOfReceipts.add(myReceipts.get(i));
+        }
+        return copyOfReceipts;
     }
     
     /**
@@ -113,7 +167,9 @@ public class Project implements Serializable{
      * @author caleb
      */
     public void addMaterial(Material theMaterial) {
+        myDateLastModified = new Date();
         myMaterials.add(theMaterial);
+        ProjectManager.saveProjects();
     }
     
     /**
@@ -122,6 +178,7 @@ public class Project implements Serializable{
      * @author caleb
      */
     public void addReceipt(Receipt theReceipt) {
+        myDateLastModified = new Date();
         myReceipts.add(theReceipt);
     }
     
@@ -150,8 +207,7 @@ public class Project implements Serializable{
     public Double estimateTotal() {
         Double total = 0.0;
         for(int i = 0; i < myMaterials.size(); i++) {
-            //after material is implmented
-            //total += myMaterials.get(i).cost;
+            total += myMaterials.get(i).getPrice();
         }
         return total;
     }
