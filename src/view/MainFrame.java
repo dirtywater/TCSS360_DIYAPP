@@ -137,11 +137,13 @@ public class MainFrame extends JFrame {
         image = image.getScaledInstance(75, 75, java.awt.Image.SCALE_SMOOTH);
         ImageIcon button_image = new ImageIcon(image);
         JButton button = new JButton(button_image);
+        //button.setText(name);
+        button.setName(name);
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 displayPanel.remove(dynamicPanel);
-                dynamicPanel = createPanel(button.getText());
+                dynamicPanel = createPanel(button.getName());
                 displayPanel.add(dynamicPanel, BorderLayout.CENTER);
                 validate();
             }

@@ -42,8 +42,8 @@ public class Receipt {
      */
     public Receipt(String title, double cost, String date, String note) { //date in the form MM/dd/yyyy
         this.cost = cost;
-        this.date = LocalDate.now().minusDays(/*days to subtract to get the actual time purchased.
-        should use the string passed in to determine how long ago it was*/); //TODO figure this out
+        //this.date = LocalDate.now().minusDays(/*days to subtract to get the actual time purchased.
+        //should use the string passed in to determine how long ago it was*/); //TODO figure this out
         this.note = note;
     }
     
