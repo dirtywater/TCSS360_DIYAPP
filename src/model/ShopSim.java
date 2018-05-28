@@ -15,10 +15,11 @@ public class ShopSim {
     
     public String myText = "";
  
+    private static final String STORE_SAVEFILE = "simstore.CSV";
     
-    public ShopSim(String theStoreName) {
+    public ShopSim() {
         try {
-            getMaterials(theStoreName);
+            getMaterials(STORE_SAVEFILE);
         }
         catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
@@ -59,18 +60,17 @@ public class ShopSim {
             e.printStackTrace();
         }
         
-        System.out.println(myMaterials);
         
-        for (Material mat: myMaterials) {
-            mat.toString();       
-        }
+        /*for (Material mat: myMaterials) {
+            System.out.println(mat.toString());
+        }*/
         
     }
     
     public List<Material> getMyMaterials() {
-        
         return myMaterials;
     }
+    
     public String toString() {
         String result = "";
         for (Material mat: myMaterials) {
