@@ -18,6 +18,7 @@ public class ReportPanel extends JPanel {
         reportProject = project;
         JLabel label = new JLabel();
         label.setText(toString());
+        add(label);
     }
     
     public void paintComponent(final Graphics theGraphics) {
@@ -27,7 +28,7 @@ public class ReportPanel extends JPanel {
     
     @Override
     public String toString() {
-        if(reportProject == null) {
+        if(reportProject == null || reportProject.getReceipts().size() == 0) {
             return "No project available";
         }
         reportProject.getReceipts().sort(new Comparator<Receipt>() {
