@@ -1,8 +1,7 @@
 package model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
 /**
  * Everything the user purchases for a project can be made into a receipt.
@@ -11,8 +10,13 @@ import java.util.Date;
  * 
  * @author Michelle
  */
-public class Receipt {
+public class Receipt implements Serializable {
     
+    /**
+     * generated serial id.
+     */
+    private static final long serialVersionUID = -8491951796110188642L;
+
     public String title;
 
     public double cost;
@@ -30,7 +34,7 @@ public class Receipt {
         title = material.myName;
         cost = material.myPrice;
         date = LocalDate.now();
-        note = "measurement: " + material.myMeasurment.toString() + "\nquantity: " + material.myAmount;
+        note = "measurement: " + material.myMeasurement.toString() + "\nquantity: " + material.myAmount;
     }
     
     /**
@@ -42,8 +46,8 @@ public class Receipt {
      */
     public Receipt(String title, double cost, String date, String note) { //date in the form MM/dd/yyyy
         this.cost = cost;
-        //this.date = LocalDate.now().minusDays(/*days to subtract to get the actual time purchased.
-        //should use the string passed in to determine how long ago it was*/); //TODO figure this out
+        this.date = LocalDate.now().minusDays(0/*days to subtract to get the actual time purchased.
+        should use the string passed in to determine how long ago it was*/); //TODO figure this out
         this.note = note;
     }
     

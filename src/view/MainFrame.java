@@ -19,9 +19,11 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import model.Utility;
+import model.ProjectManager;
 import model.ShopSim;
 import view.panel.AboutPanel;
 import view.panel.DisplayPanel;
+import view.panel.ProjectPanel;
 import view.panel.SettingsPanel;
 import view.panel.ShopPanel;
 
@@ -133,17 +135,16 @@ public class MainFrame extends JFrame {
      * @author Michelle
      */
     private JButton createButton(String name, String icon) throws IOException {
+        ProjectManager.loadProjects();
         Image image = ImageIO.read(new File(icon));
         image = image.getScaledInstance(75, 75, java.awt.Image.SCALE_SMOOTH);
         ImageIcon button_image = new ImageIcon(image);
         JButton button = new JButton(button_image);
-        //button.setText(name);
-        button.setName(name);
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 displayPanel.remove(dynamicPanel);
-                dynamicPanel = createPanel(button.getName());
+                dynamicPanel = createPanel(name);
                 displayPanel.add(dynamicPanel, BorderLayout.CENTER);
                 validate();
             }
@@ -163,13 +164,14 @@ public class MainFrame extends JFrame {
         
         if(name.equals("Home")) {
             panel = new DisplayPanel(Color.BLACK, frameDimension);
-        } else if(name.equals("Projects")){
-            panel = new DisplayPanel(Color.BLUE, frameDimension);
+        } else if(name.equals("Projects")) {
+            panel = new ProjectPanel(new Dimension((int)(frameDimension.getWidth()*(1-SIDE*1.4)),
+                                                  (int)(frameDimension.getHeight()*(REDUCTION))));
         } else if(name.equals("Graph")){
             panel = new DisplayPanel(Color.GREEN, frameDimension);
         } else if(name.equals("Shop")) {
             
-            ShopSim testStore = new ShopSim("simstore.CSV");
+            ShopSim testStore = new ShopSim();
             //panel = new DisplayPanel(Color.RED, frameDimension);
             
             panel = new ShopPanel(testStore);
@@ -192,4 +194,16 @@ public class MainFrame extends JFrame {
         }
         return panel;
     }
+    
+    /**
+     * change the title of the frame to reflect the current project.
+     * @param title
+     * @author caleb
+     */
+    public void SetTitle(String title) {
+        this.setTitle("DIY Project\t -" + title);
+        
+        
+    }
+    
 }

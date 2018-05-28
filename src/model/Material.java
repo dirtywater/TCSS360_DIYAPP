@@ -1,7 +1,6 @@
 package model;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
+
+import java.io.Serializable;
 
 /**
  * Class that holds information about a material a user may choose to add
@@ -10,29 +9,42 @@ import java.util.HashMap;
  * @author David
  * @author Michelle
  */
-public class Material {
+public class Material implements Serializable{
+
+    /**
+     * generated serial id.
+     */
+    private static final long serialVersionUID = -8314551894492343040L;
 
     public String myName;
 
     public Double myPrice;
 
-    public Measurement myMeasurment;
+    public model.Measurement myMeasurement;
 
     public int myAmount;
 
-    public Material(String theName, double thePrice, Measurement theMeasurment, int theAmount) {
+    public Material(String theName, double thePrice, model.Measurement measurement) {
+        this(theName, thePrice, measurement, 1);
+    }
+    
+    public Material(String theName, double thePrice, model.Measurement theMeasurement, int theAmount) {
         myName = theName;
         myPrice = thePrice;
-        myMeasurment = theMeasurment;
+        myMeasurement = theMeasurement;
         myAmount = theAmount;
     }
 
     public String toString() {
-        return  myName + "\nCost = " + myPrice + "\nMeasurment = " + myMeasurment.toString() + "\n\n";
+        return  myName + "\nCost = " + myPrice + "\nMeasurment = " + myMeasurement.toString() + "\n\n";
     }
 
     public double totalCost() {
         return myPrice * myAmount;
+    }
+    
+    public String getName() {
+        return myName;
     }
     
     
