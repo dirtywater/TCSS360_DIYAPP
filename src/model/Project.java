@@ -13,6 +13,8 @@ public class Project implements Serializable{
      */
     private static final long serialVersionUID = 3274616962318959161L;
     
+    public static final String DATE_FORMAT = "MM/dd/yyyy";
+    
     private String myTitle;
     private Date myDateLastModified;
     private Date myDateCreated;
@@ -72,14 +74,13 @@ public class Project implements Serializable{
     }
     
     public String getDateLastModified() {
-        SimpleDateFormat dt = new SimpleDateFormat("MM/dd/yy");
+        SimpleDateFormat dt = new SimpleDateFormat(DATE_FORMAT);
         String date = dt.format(myDateLastModified);
         return date;
     }
     
-    public String
-    getDateCreated() {
-        SimpleDateFormat dt = new SimpleDateFormat("MM/dd/yy");
+    public String getDateCreated() {
+        SimpleDateFormat dt = new SimpleDateFormat(DATE_FORMAT);
         String date = dt.format(myDateCreated);
         return date;
     }
@@ -174,6 +175,21 @@ public class Project implements Serializable{
     }
     
     /**
+     * remove the receipt from the list and update date last modified.
+     * @return returns true if the receipt was removed and false if the receipt wasn't found.
+     * @param rec
+     * @author caleb
+     */
+    public boolean removeReceipt(Receipt rec) {
+        boolean removed = myReceipts.remove(rec);
+        if(removed) {
+            myDateLastModified = new Date();
+            ProjectManager.saveProjects();
+        }
+        return removed;
+    }
+    
+    /**
      * Add a single receipt to the list of this projects receipts.
      * @param theReceipt
      * @author caleb
@@ -201,14 +217,17 @@ public class Project implements Serializable{
     }
     
     /**
-     * gets the estimated total for the materials.
-     * @return the material total for the materials.
+     * gets the estimated total for the materials and receipts.
+     * @return the material total for the materials and receipts.
      * @author caleb
      */
     public Double estimateTotal() {
         Double total = 0.0;
         for(int i = 0; i < myMaterials.size(); i++) {
             total += myMaterials.get(i).totalCost();
+        }
+        for(int i = 0; i < myReceipts.size(); i++) {
+            total += myReceipts.get(i).getCost();
         }
         return total;
     }
@@ -274,5 +293,4 @@ public class Project implements Serializable{
             return false;
         return true;
     }
-    
 }
