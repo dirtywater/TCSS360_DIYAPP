@@ -1,9 +1,12 @@
 package model;
 
-public class Measurement {
+import java.io.Serializable;
 
-    
-    
+public class Measurement implements Serializable {
+    /**
+     * generated serial id.
+     */
+    private static final long serialVersionUID = 5002827379414578857L;
     
     double myWidth;
     double myHeight;
