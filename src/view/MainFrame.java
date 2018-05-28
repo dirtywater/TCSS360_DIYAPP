@@ -194,4 +194,16 @@ public class MainFrame extends JFrame {
         }
         return panel;
     }
+    
+    /**
+     * change the title of the frame to reflect the current project.
+     * @param title
+     * @author caleb
+     */
+    public void SetTitle(String title) {
+        this.setTitle("DIY Project\t -" + title);
+        
+        
+    }
+    
 }

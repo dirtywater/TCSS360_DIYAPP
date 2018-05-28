@@ -51,10 +51,10 @@ public class ProjectManager implements Serializable{
      * @param theProject
      * @author caleb
      */
-    public static void setCurrentProjectIndex(Project theProject) {
+    public static void setCurrentProject(Project theProject) {
         Integer index = ProjectManager.getIndex(theProject);
         if(index != null) {
-            setCurrentProjectIndex(index);
+            setCurrentProject(index);
         }
         
     }
@@ -64,7 +64,7 @@ public class ProjectManager implements Serializable{
      * @param index
      * @author caleb
      */
-    public static void setCurrentProjectIndex(Integer index) {
+    public static void setCurrentProject(Integer index) {
         if(ProjectManager.getProject(index) != null)
             myCurrentProjectIndex = index;
     }
@@ -176,7 +176,9 @@ public class ProjectManager implements Serializable{
                 p.changeProjectTitle(theTitle);
                 p.replaceMaterials(theMaterials);
                 p.replaceReceipts(theReceipts);
+                ProjectManager.setCurrentProject(p);
                 myCurrentProjectIndex = ProjectManager.getIndex(p);
+                break;
             }
         }
         ProjectManager.saveProjects();

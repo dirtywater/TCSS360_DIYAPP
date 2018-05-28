@@ -15,12 +15,14 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EtchedBorder;
 
 import model.Material;
 import model.Project;
 import model.ProjectManager;
 import model.Receipt;
+import view.MainFrame;
 
 public class ProjectPanel extends JPanel implements ActionListener{
 
@@ -254,11 +256,24 @@ public class ProjectPanel extends JPanel implements ActionListener{
                 Project p = new Project(title, myMaterials, myReceipts);
                 ProjectManager.addProject(p);
             }
-
+            setCurrentProject(ProjectManager.getCurrentProjectIndex());
         }
 
     }    
 
+    private void setCurrentProject(int index) {
+        ProjectManager.setCurrentProject(index);
+        
+        Project p = ProjectManager.getProject(index);
+        setFrameTitle(p.getTitle());
+        
+    }
+    
+    private void setFrameTitle(String title) {
+        MainFrame topFrame = (MainFrame) SwingUtilities.getWindowAncestor(this);
+        topFrame.SetTitle(title);
+    }
+    
     /**
      * panel for selecting an existing project.
      * @author caleb
@@ -337,7 +352,7 @@ public class ProjectPanel extends JPanel implements ActionListener{
         String strActionCommand = e.getActionCommand();
         if(strActionCommand.startsWith("_P")) {//used with editing an existing project
             int index = Integer.parseInt(strActionCommand.substring(2, strActionCommand.length()));
-            ProjectManager.setCurrentProjectIndex(index);
+            setCurrentProject(index);
             Project proj = ProjectManager.getProject(index);
             this.remove(displayPanel);
             displayPanel = new ProjectEditPanel(this, proj);
@@ -346,7 +361,7 @@ public class ProjectPanel extends JPanel implements ActionListener{
             this.validate();
 
         } else if(strActionCommand.startsWith("_S")) {//used with selecting a project from existing projects panel
-            ProjectManager.setCurrentProjectIndex(Integer.parseInt(strActionCommand.substring(2)));
+            setCurrentProject(Integer.parseInt(strActionCommand.substring(2)));
             this.remove(displayPanel);
             this.repaint();
         } else if(strActionCommand.startsWith("_R")){//used for removing a material from a project
@@ -357,6 +372,7 @@ public class ProjectPanel extends JPanel implements ActionListener{
                     p.removeMaterial(mat);
                     ProjectManager.updateProject(ProjectManager.getCurrentProjectIndex(), p);
                     ProjectManager.saveProjects();
+                    setCurrentProject(ProjectManager.getCurrentProjectIndex());
                     break;//only delete one 
                 }
             }
@@ -368,6 +384,11 @@ public class ProjectPanel extends JPanel implements ActionListener{
         } else if(strActionCommand.startsWith("_D")) {//used with deleting a project from list of existing projects panel
             Project p = ProjectManager.getProject(Integer.parseInt(strActionCommand.substring(2)));
             ProjectManager.removeProject(p);
+            if(ProjectManager.getCurrentProjectIndex() != null) {
+                setCurrentProject(ProjectManager.getCurrentProjectIndex());
+            } else {
+                setFrameTitle("");
+            } 
             this.remove(displayPanel);
             displayPanel = new ProjectExistingPanel(this);
             this.add(displayPanel, BorderLayout.CENTER);
