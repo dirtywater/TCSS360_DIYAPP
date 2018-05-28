@@ -176,6 +176,9 @@ public class ProjectManager implements Serializable{
                 p.changeProjectTitle(theTitle);
                 p.replaceMaterials(theMaterials);
                 p.replaceReceipts(theReceipts);
+                //TODO: delete the replace receipts below with the commented out line above this
+                /*Receipt r = new Receipt("receipt title", new Double(5.14), new Date(), "Notes");
+                p.addReceipt(r);*/
                 ProjectManager.setCurrentProject(p);
                 myCurrentProjectIndex = ProjectManager.getIndex(p);
                 break;
