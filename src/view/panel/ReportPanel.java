@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 
 import model.Project;
 import model.Receipt;
+import model.Utility;
 
 public class ReportPanel extends JPanel {
 
@@ -17,7 +18,7 @@ public class ReportPanel extends JPanel {
     public ReportPanel(Project project) {
         reportProject = project;
         JLabel label = new JLabel();
-        label.setText(toString());
+        label.setText(Utility.convertToHTML(toString()));
         add(label);
     }
     
