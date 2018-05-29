@@ -32,7 +32,8 @@ public class ProjectPanel extends JPanel implements ActionListener{
     private static final long serialVersionUID = 6230144897462569298L;
 
     private enum COMMAND {
-        EDIT_PROJECT, EXISTING_PROJECT, MATERIALS, ADD_RECEIPTS, SAVE_PROJECT_EDIT, CLOSE_PANEL;
+        EDIT_PROJECT, EXISTING_PROJECT, MATERIALS, RECEIPTS, SAVE_PROJECT_EDIT, CLOSE_PANEL,
+        PREFIX_EDIT_EXISTING_PROJECT, PREFIX_SELECT_PROJECT, PREFIX_REMOVE_MATERIAL, PREFIX_REMOVE_EXISTING_PROJECT, PREFIX_REMOVE_RECEIPT;
 
         //return the command with the same name as the actionCommand or null
         public static COMMAND getCommand(String actionCommand) {
@@ -97,7 +98,51 @@ public class ProjectPanel extends JPanel implements ActionListener{
     }
 
     /**
-     * this panel allows viewing all materials for a project and removing materials from the project.
+     * this panel allows viewing all receipts for the current project and removing receipts from the project.
+     * @author caleb
+     *
+     */
+    private class ProjectReceiptsPanel extends JPanel {
+
+        /**
+         * generated serial id.
+         */
+        private static final long serialVersionUID = 6567097730531420719L;
+
+        private ProjectReceiptsPanel(ProjectPanel projectPanel, Project theProject) {
+            JPanel panel = new JPanel(new GridLayout(0,1));
+
+            JPanel receiptsScrollPanel = new JPanel();
+            receiptsScrollPanel.setBorder(BorderFactory.createBevelBorder(0));
+            JPanel receiptsDisplayPanel = new JPanel(new GridLayout(0,1));
+            JScrollPane receiptsScrollPane = new JScrollPane(receiptsScrollPanel,
+                                                             JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                                                             JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+            if(theProject != null) {
+                List<Receipt> recs = theProject.getReceipts();
+                for(Receipt rec : recs) {
+                    String recText = rec.toString();
+                    JButton btnRemove = new JButton("Remove");
+                    btnRemove.addActionListener(projectPanel);
+                    btnRemove.setActionCommand(COMMAND.PREFIX_REMOVE_RECEIPT.name() + recText);
+
+                    JLabel recLabel = new JLabel(recText);
+                    JPanel receiptPanel = new JPanel(new GridLayout(1,0));
+                    receiptPanel.add(recLabel);
+                    receiptPanel.add(btnRemove);
+                    receiptsDisplayPanel.add(receiptPanel);
+                }
+            }
+            receiptsScrollPanel.add(receiptsDisplayPanel);
+
+            panel.add(receiptsScrollPane);
+            this.add(panel);
+        }
+
+    }
+
+    /**
+     * this panel allows viewing all materials for the current project and removing materials from the project.
      * @author caleb
      *
      */
@@ -110,7 +155,7 @@ public class ProjectPanel extends JPanel implements ActionListener{
         private ProjectMaterialsPanel(ProjectPanel projectPanel, Project theProject) {
 
             JPanel panel = new JPanel(new GridLayout(0,1));
-            
+
             JPanel materialsScrollPanel = new JPanel();
             materialsScrollPanel.setBorder(BorderFactory.createBevelBorder(0));
             JPanel materialsDisplayPanel = new JPanel(new GridLayout(0,1));
@@ -122,11 +167,11 @@ public class ProjectPanel extends JPanel implements ActionListener{
                 List<Material> mats = theProject.getMaterials();
                 for(Material mat : mats) {
                     String matText = mat.getName() +" $" + mat.totalCost() + " ";
-                    
+
                     JButton btnRemove = new JButton("Remove");
                     btnRemove.addActionListener(projectPanel);
-                    btnRemove.setActionCommand("_R" + mat.toString());
-                    
+                    btnRemove.setActionCommand(/*"_R"*/COMMAND.PREFIX_REMOVE_MATERIAL.name() + mat.toString());
+
                     JLabel matLabel = new JLabel(matText);
                     JPanel materialPanel = new JPanel(new GridLayout(1,0));
                     materialPanel.add(matLabel);
@@ -135,7 +180,7 @@ public class ProjectPanel extends JPanel implements ActionListener{
                 }
             }
             materialsScrollPanel.add(materialsDisplayPanel);
-            
+
             panel.add(materialScrollPane);
             this.add(panel);
         }
@@ -197,8 +242,8 @@ public class ProjectPanel extends JPanel implements ActionListener{
             btnAddMaterials.setActionCommand(COMMAND.MATERIALS.name());
             btnAddMaterials.addActionListener(projectPanel);
 
-            JButton btnAddReceipts = new JButton("Add Receipts");
-            btnAddReceipts.setActionCommand(COMMAND.ADD_RECEIPTS.name());
+            JButton btnAddReceipts = new JButton("Receipts");
+            btnAddReceipts.setActionCommand(COMMAND.RECEIPTS.name());
             btnAddReceipts.addActionListener(projectPanel);
 
             JButton btnCancelProjectEdit = new JButton("Cancel");
@@ -245,7 +290,7 @@ public class ProjectPanel extends JPanel implements ActionListener{
         }
 
         /**
-         * if the project being edited was an existing project or not and save the changes.
+         * Update the current project to be this project.
          * @author caleb
          */
         private void updateProject() {
@@ -261,19 +306,28 @@ public class ProjectPanel extends JPanel implements ActionListener{
 
     }    
 
+
+    /**
+     * updates the mainframe title to match this project index title and sets the current project to this indexs project.
+     * @param index
+     * @author caleb
+     */
     private void setCurrentProject(int index) {
         ProjectManager.setCurrentProject(index);
-        
         Project p = ProjectManager.getProject(index);
         setFrameTitle(p.getTitle());
-        
     }
-    
+
+    /**
+     * calls the mainframes set title method with the title passed in here.
+     * @param title
+     * @author caleb
+     */
     private void setFrameTitle(String title) {
         MainFrame topFrame = (MainFrame) SwingUtilities.getWindowAncestor(this);
         topFrame.SetTitle(title);
     }
-    
+
     /**
      * panel for selecting an existing project.
      * @author caleb
@@ -308,19 +362,19 @@ public class ProjectPanel extends JPanel implements ActionListener{
                                                 "   Modified: "+ proj.getDateLastModified() +
                                                 "   Cost: $" + cost + "   ");
                 int projIndex = ProjectManager.getIndex(proj);
-                
+
                 JButton btnEdit = new JButton("Edit");
-                btnEdit.setActionCommand("_P" + projIndex);
+                btnEdit.setActionCommand(/*"_P"*/COMMAND.PREFIX_EDIT_EXISTING_PROJECT.name() + projIndex);
                 btnEdit.addActionListener(projectPanel);
 
                 JButton btnSelect = new JButton("Select");
-                btnSelect.setActionCommand("_S" + projIndex);
+                btnSelect.setActionCommand(/*"_S"*/COMMAND.PREFIX_SELECT_PROJECT.name() + projIndex);
                 btnSelect.addActionListener(projectPanel);
 
                 JButton btnDelete = new JButton("Delete");
-                btnDelete.setActionCommand("_D" + projIndex);
+                btnDelete.setActionCommand(/*"_D"*/COMMAND.PREFIX_REMOVE_EXISTING_PROJECT.name() + projIndex);
                 btnDelete.addActionListener(projectPanel);
-                
+
                 JPanel buttonPanel = new JPanel();
                 buttonPanel.add(btnEdit);
                 buttonPanel.add(btnSelect);
@@ -340,18 +394,14 @@ public class ProjectPanel extends JPanel implements ActionListener{
      * what to do when buttons are used.
      * for static buttons the COMMAND enum is used, for dynamic buttons prefixes are used and 
      * the related identifier is appended to the end of the action command.
-     * _P prefix is for getting the project to be edited from the existing project panel to the edit project panel
-     * _S prefix is for the select button in existing projects panel, to set the selected project.
-     * _R prefix is used for removing a material from a project, giving the materials toString as the identifier.
-     * _D prefix is used for deleting a project from the existing projects panel.
      * maybe these prefixes could be in an enum instead and then appended.
      * @author caleb
      */
     @Override
     public void actionPerformed(ActionEvent e) {
         String strActionCommand = e.getActionCommand();
-        if(strActionCommand.startsWith("_P")) {//used with editing an existing project
-            int index = Integer.parseInt(strActionCommand.substring(2, strActionCommand.length()));
+        if(strActionCommand.startsWith(/*"_P"*/COMMAND.PREFIX_EDIT_EXISTING_PROJECT.name())) {//used with editing an existing project
+            int index = Integer.parseInt(strActionCommand.substring(COMMAND.PREFIX_EDIT_EXISTING_PROJECT.name().length()));
             setCurrentProject(index);
             Project proj = ProjectManager.getProject(index);
             this.remove(displayPanel);
@@ -360,12 +410,12 @@ public class ProjectPanel extends JPanel implements ActionListener{
             this.repaint();
             this.validate();
 
-        } else if(strActionCommand.startsWith("_S")) {//used with selecting a project from existing projects panel
-            setCurrentProject(Integer.parseInt(strActionCommand.substring(2)));
+        } else if(strActionCommand.startsWith(/*"_S"*/COMMAND.PREFIX_SELECT_PROJECT.name())) {//used with selecting a project from existing projects panel
+            setCurrentProject(Integer.parseInt(strActionCommand.substring(COMMAND.PREFIX_SELECT_PROJECT.name().length())));
             this.remove(displayPanel);
             this.repaint();
-        } else if(strActionCommand.startsWith("_R")){//used for removing a material from a project
-            String matToString = strActionCommand.substring(2);
+        } else if(strActionCommand.startsWith(/*"_R"*/COMMAND.PREFIX_REMOVE_MATERIAL.name())){//used for removing a material from a project
+            String matToString = strActionCommand.substring(COMMAND.PREFIX_REMOVE_MATERIAL.name().length());
             Project p = ProjectManager.getProject(ProjectManager.getCurrentProjectIndex());
             for(Material mat : p.getMaterials()) {
                 if(mat.toString().equals(matToString)) {//remove one of these materials
@@ -381,8 +431,8 @@ public class ProjectPanel extends JPanel implements ActionListener{
             this.add(displayPanel, BorderLayout.CENTER);
             this.repaint();
             this.validate();
-        } else if(strActionCommand.startsWith("_D")) {//used with deleting a project from list of existing projects panel
-            Project p = ProjectManager.getProject(Integer.parseInt(strActionCommand.substring(2)));
+        } else if(strActionCommand.startsWith(/*"_D"*/COMMAND.PREFIX_REMOVE_EXISTING_PROJECT.name())) {//used with deleting a project from list of existing projects panel
+            Project p = ProjectManager.getProject(Integer.parseInt(strActionCommand.substring(COMMAND.PREFIX_REMOVE_EXISTING_PROJECT.name().length())));
             ProjectManager.removeProject(p);
             if(ProjectManager.getCurrentProjectIndex() != null) {
                 setCurrentProject(ProjectManager.getCurrentProjectIndex());
@@ -391,6 +441,24 @@ public class ProjectPanel extends JPanel implements ActionListener{
             } 
             this.remove(displayPanel);
             displayPanel = new ProjectExistingPanel(this);
+            this.add(displayPanel, BorderLayout.CENTER);
+            this.repaint();
+            this.validate();
+        } else if(strActionCommand.startsWith(COMMAND.PREFIX_REMOVE_RECEIPT.name())) {
+            String recToString = strActionCommand.substring(COMMAND.PREFIX_REMOVE_RECEIPT.name().length());
+            Project p = ProjectManager.getProject(ProjectManager.getCurrentProjectIndex());
+            for(Receipt rec : p.getReceipts()) {
+                if(rec.toString().equals(recToString)) {//remove one of these receipts
+                    p.removeReceipt(rec);
+                    ProjectManager.updateProject(ProjectManager.getCurrentProjectIndex(), p);
+                    ProjectManager.saveProjects();
+                    setCurrentProject(ProjectManager.getCurrentProjectIndex());
+                    break;//only delete one 
+                }
+            }
+            //reload screen to show new receipts
+            this.remove(displayPanel);
+            displayPanel = new ProjectReceiptsPanel(this, p);
             this.add(displayPanel, BorderLayout.CENTER);
             this.repaint();
             this.validate();
@@ -412,8 +480,8 @@ public class ProjectPanel extends JPanel implements ActionListener{
                     this.validate();
                     break;
                 case MATERIALS:
-                    ProjectEditPanel panel = (ProjectEditPanel) displayPanel;
-                    panel.updateProject();
+                    //ProjectEditPanel panel = (ProjectEditPanel) displayPanel;//the panel that made this action
+                    ((ProjectEditPanel)displayPanel).updateProject();
                     this.remove(displayPanel);
                     displayPanel = new ProjectMaterialsPanel(this, 
                                                              ProjectManager.getProject(ProjectManager.getCurrentProjectIndex()));
@@ -421,15 +489,22 @@ public class ProjectPanel extends JPanel implements ActionListener{
                     this.repaint();
                     this.validate();
                     break;
-                case ADD_RECEIPTS:
+                case RECEIPTS:
+                    ((ProjectEditPanel) displayPanel).updateProject();
+                    this.remove(displayPanel);
+                    displayPanel = new ProjectReceiptsPanel(this,
+                                                            ProjectManager.getProject(ProjectManager.getCurrentProjectIndex()));
+                    this.add(displayPanel);
+                    this.repaint();
+                    this.validate();
                     break;
                 case CLOSE_PANEL:
                     this.remove(displayPanel);
                     this.repaint();
                     break;
                 case SAVE_PROJECT_EDIT:
-                    ProjectEditPanel pan = (ProjectEditPanel) displayPanel;
-                    pan.updateProject();
+                    //ProjectEditPanel pan = (ProjectEditPanel) displayPanel;
+                    ((ProjectEditPanel)displayPanel).updateProject();
                     this.remove(displayPanel);
                     this.repaint();
                     break;
