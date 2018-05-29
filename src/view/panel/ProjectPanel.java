@@ -23,6 +23,7 @@ import model.Project;
 import model.ProjectManager;
 import model.Receipt;
 import view.MainFrame;
+import view.MainFrame.PAGE;
 
 public class ProjectPanel extends JPanel implements ActionListener{
 
@@ -46,7 +47,7 @@ public class ProjectPanel extends JPanel implements ActionListener{
             System.err.println("In ProjectPanel.java\nInvalid action command:" + actionCommand);
             return null;
         }
-    };
+    }
 
     private JPanel displayPanel;
 
@@ -110,8 +111,10 @@ public class ProjectPanel extends JPanel implements ActionListener{
         private static final long serialVersionUID = 6567097730531420719L;
 
         private ProjectReceiptsPanel(ProjectPanel projectPanel, Project theProject) {
-            JPanel panel = new JPanel(new GridLayout(0,1));
+            //JPanel panel = new JPanel(new GridLayout(0,1));
 
+            this.setLayout(new GridLayout(0,1));
+            
             JPanel receiptsScrollPanel = new JPanel();
             receiptsScrollPanel.setBorder(BorderFactory.createBevelBorder(0));
             JPanel receiptsDisplayPanel = new JPanel(new GridLayout(0,1));
@@ -134,9 +137,7 @@ public class ProjectPanel extends JPanel implements ActionListener{
                 }
             }
             receiptsScrollPanel.add(receiptsDisplayPanel);
-
-            panel.add(receiptsScrollPane);
-            this.add(panel);
+            this.add(receiptsScrollPane);
         }
 
     }
@@ -154,10 +155,10 @@ public class ProjectPanel extends JPanel implements ActionListener{
 
         private ProjectMaterialsPanel(ProjectPanel projectPanel, Project theProject) {
 
-            JPanel panel = new JPanel(new GridLayout(0,1));
-
+            //JPanel panel = new JPanel(new GridLayout(0,1));
+            this.setLayout(new GridLayout(1,1));
             JPanel materialsScrollPanel = new JPanel();
-            materialsScrollPanel.setBorder(BorderFactory.createBevelBorder(0));
+            //materialsScrollPanel.setBorder(BorderFactory.createBevelBorder(0));
             JPanel materialsDisplayPanel = new JPanel(new GridLayout(0,1));
             JScrollPane materialScrollPane = new JScrollPane(materialsScrollPanel,
                                                              JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
@@ -180,9 +181,7 @@ public class ProjectPanel extends JPanel implements ActionListener{
                 }
             }
             materialsScrollPanel.add(materialsDisplayPanel);
-
-            panel.add(materialScrollPane);
-            this.add(panel);
+            this.add(materialScrollPane);
         }
     }
 
@@ -200,7 +199,9 @@ public class ProjectPanel extends JPanel implements ActionListener{
 
         private Project myOldProject;
 
-        private JTextField myTxtTitle = new JTextField(10);
+        private static final int MAX_TITLE_LEN = 45;
+        
+        private JTextField myTxtTitle = new JTextField(MAX_TITLE_LEN);
         private ArrayList<Material> myMaterials = new ArrayList<Material>();
         private ArrayList<Receipt> myReceipts = new ArrayList<Receipt>();
 
@@ -230,11 +231,12 @@ public class ProjectPanel extends JPanel implements ActionListener{
 
             JLabel lblTitle = new JLabel("Title: ");
             JLabel lblPanelHeader;
+            
             if(theProject == null) {
                 lblPanelHeader = new JLabel("New Project");
             } else {
                 String title = theProject.getTitle();
-                lblPanelHeader = new JLabel(title);
+                lblPanelHeader = new JLabel(title.substring(0, Math.min(title.length(), MAX_TITLE_LEN)));
                 myTxtTitle.setText(title);
             }
 
@@ -324,8 +326,24 @@ public class ProjectPanel extends JPanel implements ActionListener{
      * @author caleb
      */
     private void setFrameTitle(String title) {
-        MainFrame topFrame = (MainFrame) SwingUtilities.getWindowAncestor(this);
-        topFrame.SetTitle(title);
+        getMainFrame().SetTitle(title);
+    }
+    
+    /**
+     * gives the windowAncestor for this assuming it is a MainFrame.
+     * @return
+     * @author caleb
+     */
+    private MainFrame getMainFrame() {
+        return (MainFrame) SwingUtilities.getWindowAncestor(this);
+    }
+    
+    /**
+     * sets the frames home page to the home page.
+     * @author caleb
+     */
+    private void setPageToHome() {
+        getMainFrame().changePanel(PAGE.HOME);
     }
 
     /**
@@ -350,17 +368,20 @@ public class ProjectPanel extends JPanel implements ActionListener{
 
             List<Project> projects = ProjectManager.getProjects();
             for(Project proj : projects) {
-                int maxCharsInTitleLabel = 15;
+                int maxCharsInTitleLabel = 17;
 
-                JPanel panel = new JPanel(new GridLayout(1,0));
+                GridLayout layout = new GridLayout(1,0);
+                layout.setHgap((int) (projectPanel.getWidth() * -.08));
+                
+                JPanel panel = new JPanel(layout);
                 String cost = "";
-                DecimalFormat df = new DecimalFormat("0.00");
-                cost = df.format(proj.estimateTotal());
+                Double tempCost = proj.estimateTotal();
+                cost = makeSmallMoney(tempCost);
                 JLabel displayText = new JLabel(proj.getTitle().substring
                                                 (0, Integer.min(maxCharsInTitleLabel, proj.getTitle().length())) +
                                                 "   Created: " + proj.getDateCreated() +
                                                 "   Modified: "+ proj.getDateLastModified() +
-                                                "   Cost: $" + cost + "   ");
+                                                "   Cost: $" + cost);
                 int projIndex = ProjectManager.getIndex(proj);
 
                 JButton btnEdit = new JButton("Edit");
@@ -388,6 +409,31 @@ public class ProjectPanel extends JPanel implements ActionListener{
             projectsScrollPanel.add(projectsPanel);
             this.add(scrollPane);
         }
+
+        /**
+         * method to limit character size of money for display in panels.
+         * @param tempCost
+         * @return
+         * @author caleb
+         */
+        private String makeSmallMoney(Double tempCost) {
+            DecimalFormat df = new DecimalFormat("#.##");
+            String output = "";
+            if(tempCost < 0) {//negative Double so should have huge cost ~ 4b+
+                output = "4B +";
+            } else if(tempCost >= 1000000000) {//range [max, 1B]
+                tempCost /=       1000000000;
+                output = df.format(tempCost); //X.XX
+                output += "B";                //X.XXB
+            } else if(tempCost >= 1000000) { //range (1B, 1M]
+                tempCost /=       1000000;
+                output = df.format(tempCost); //X.XX
+                output += "M";                //Y.YYM
+            } else {
+                output = new DecimalFormat("#,###.##").format(tempCost);
+            }
+            return output;
+        }
     }
 
     /**
@@ -413,6 +459,7 @@ public class ProjectPanel extends JPanel implements ActionListener{
         } else if(strActionCommand.startsWith(/*"_S"*/COMMAND.PREFIX_SELECT_PROJECT.name())) {//used with selecting a project from existing projects panel
             setCurrentProject(Integer.parseInt(strActionCommand.substring(COMMAND.PREFIX_SELECT_PROJECT.name().length())));
             this.remove(displayPanel);
+            setPageToHome();
             this.repaint();
         } else if(strActionCommand.startsWith(/*"_R"*/COMMAND.PREFIX_REMOVE_MATERIAL.name())){//used for removing a material from a project
             String matToString = strActionCommand.substring(COMMAND.PREFIX_REMOVE_MATERIAL.name().length());
@@ -500,12 +547,14 @@ public class ProjectPanel extends JPanel implements ActionListener{
                     break;
                 case CLOSE_PANEL:
                     this.remove(displayPanel);
+                    setPageToHome();
                     this.repaint();
+                    this.validate();
                     break;
                 case SAVE_PROJECT_EDIT:
-                    //ProjectEditPanel pan = (ProjectEditPanel) displayPanel;
                     ((ProjectEditPanel)displayPanel).updateProject();
                     this.remove(displayPanel);
+                    setPageToHome();
                     this.repaint();
                     break;
                 default: 
