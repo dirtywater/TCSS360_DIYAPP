@@ -23,6 +23,7 @@ import model.ProjectManager;
 import model.ShopSim;
 import view.panel.AboutPanel;
 import view.panel.DisplayPanel;
+import view.panel.HomePanel;
 import view.panel.ProjectPanel;
 import view.panel.ReportPanel;
 import view.panel.SettingsPanel;
@@ -90,7 +91,7 @@ public class MainFrame extends JFrame {
                 (int)(size.getHeight() * REDUCTION));
         setSize(new Dimension((int)(frameDimension.getWidth()),
                 (int)frameDimension.getHeight()));
-        dynamicPanel = new JPanel();
+        dynamicPanel = new HomePanel();
         displayPanel = new JPanel(); //Replace with Caleb's code.
         sidePanel = createSidePanel((int)(frameDimension.width * SIDE),
                 (int)(frameDimension.height * REDUCTION));
@@ -114,12 +115,12 @@ public class MainFrame extends JFrame {
         panel.setBackground(Color.BLACK);
         panel.setPreferredSize(new Dimension(width, height));
         
-        panel.add(createButton("Home", "home_button.png"));
-        panel.add(createButton("Projects", "projects_button.png"));
-        panel.add(createButton("Report", "efficiency_button.png"));
-        panel.add(createButton("Shop", "shop_button.png"));
-        panel.add(createButton("About", "about_button.png"));
-        panel.add(createButton("Settings", "settings_button.png"));
+        panel.add(createButton("Home", "images/home_button.png"));
+        panel.add(createButton("Projects", "images/projects_button.png"));
+        panel.add(createButton("Report", "images/efficiency_button.png"));
+        panel.add(createButton("Shop", "images/shop_button.png"));
+        panel.add(createButton("About", "images/about_button.png"));
+        panel.add(createButton("Settings", "images/settings_button.png"));
         return panel;
     }
     
@@ -164,7 +165,7 @@ public class MainFrame extends JFrame {
         JPanel panel;
         
         if(name.equals("Home")) {
-            panel = new DisplayPanel(Color.BLACK, frameDimension);
+            panel = new HomePanel();
         } else if(name.equals("Projects")) {
             panel = new ProjectPanel(new Dimension((int)(frameDimension.getWidth()*(1-SIDE*1.4)),
                                                   (int)(frameDimension.getHeight()*(REDUCTION))));

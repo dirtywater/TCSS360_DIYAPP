@@ -1,0 +1,65 @@
+package view.panel;
+
+import java.awt.Color;
+import java.awt.Image;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+/**
+ * ...
+ * 
+ * @author Michelle
+ */
+public class HomePanel extends JPanel {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -1648973452334682043L;
+
+    public HomePanel() {
+        JLabel imageLabel = new JLabel();
+        ImageIcon home_lightsoff = null;
+        ImageIcon home_lightson = null;
+        try {
+            home_lightsoff = new ImageIcon(ImageIO.read(new File("images/house_lightsoff.png")));
+        } catch (IOException e) { e.printStackTrace(); }
+        imageLabel.setIcon(home_lightsoff);
+        try {
+            home_lightson = new ImageIcon(ImageIO.read(new File("images/house_lightson.png")));
+        } catch (IOException e) { e.printStackTrace(); }
+        imageLabel.addMouseListener(new Hover(home_lightsoff, home_lightson));
+        this.add(imageLabel);
+    }
+    
+    private class Hover extends MouseAdapter {
+
+        ImageIcon imageOne;
+        
+        ImageIcon imageTwo;
+        
+        public Hover(ImageIcon one, ImageIcon two) {
+            imageOne = one;
+            imageTwo = two;
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            JLabel lbl = (JLabel) e.getComponent();
+            lbl.setIcon(imageTwo);
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            JLabel lbl = (JLabel) e.getComponent();
+            lbl.setIcon(imageOne);
+        }
+    }
+}
