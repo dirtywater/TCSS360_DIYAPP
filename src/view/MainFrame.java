@@ -3,7 +3,6 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -19,6 +18,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import model.Utility;
+import model.Project;
 import model.ProjectManager;
 import model.ShopSim;
 import view.panel.AboutPanel;
@@ -43,6 +43,10 @@ public class MainFrame extends JFrame {
      * Serial code of the class.
      */
     private static final long serialVersionUID = -7259295803716311757L;
+    
+    public static enum PAGE {
+        HOME, PROJECT, REPORT, SHOP, ABOUT, SETTING;
+    }
     
     /**
      * The reduction value used on the computer's screen resolution.
@@ -115,12 +119,12 @@ public class MainFrame extends JFrame {
         panel.setBackground(Color.BLACK);
         panel.setPreferredSize(new Dimension(width, height));
         
-        panel.add(createButton("Home", "images/home_button.png"));
-        panel.add(createButton("Projects", "images/projects_button.png"));
-        panel.add(createButton("Report", "images/efficiency_button.png"));
-        panel.add(createButton("Shop", "images/shop_button.png"));
-        panel.add(createButton("About", "images/about_button.png"));
-        panel.add(createButton("Settings", "images/settings_button.png"));
+        panel.add(createButton(PAGE.HOME, "images/home_button.png"));
+        panel.add(createButton(PAGE.PROJECT, "images/projects_button.png"));
+        panel.add(createButton(PAGE.REPORT, "images/efficiency_button.png"));
+        panel.add(createButton(PAGE.SHOP, "images/shop_button.png"));
+        panel.add(createButton(PAGE.ABOUT, "images/about_button.png"));
+        panel.add(createButton(PAGE.SETTING, "images/settings_button.png"));
         return panel;
     }
     
@@ -136,7 +140,7 @@ public class MainFrame extends JFrame {
      * @author Jim
      * @author Michelle
      */
-    private JButton createButton(String name, String icon) throws IOException {
+    private JButton createButton(PAGE name, String icon) throws IOException {
         ProjectManager.loadProjects();
         Image image = ImageIO.read(new File(icon));
         image = image.getScaledInstance(75, 75, java.awt.Image.SCALE_SMOOTH);
@@ -145,13 +149,18 @@ public class MainFrame extends JFrame {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                displayPanel.remove(dynamicPanel);
-                dynamicPanel = createPanel(name);
-                displayPanel.add(dynamicPanel, BorderLayout.CENTER);
-                validate();
+                changePanel(name);
             }
         });
         return button;
+    }
+    
+    
+    public void changePanel(PAGE name) {
+        displayPanel.remove(dynamicPanel);
+        dynamicPanel = createPanel(name);
+        displayPanel.add(dynamicPanel, BorderLayout.CENTER);
+        validate();
     }
     
     /**
@@ -161,25 +170,26 @@ public class MainFrame extends JFrame {
      * @param name
      * @return
      */
-    private JPanel createPanel(String name) {
-        JPanel panel;
+     private JPanel createPanel(PAGE name) {
+        JPanel panel = null;
         
-        if(name.equals("Home")) {
+        if(name.equals(PAGE.HOME)) {
             panel = new HomePanel();
-        } else if(name.equals("Projects")) {
+        } else if(name.equals(PAGE.PROJECT)) {
             panel = new ProjectPanel(new Dimension((int)(frameDimension.getWidth()*(1-SIDE*1.4)),
                                                   (int)(frameDimension.getHeight()*(REDUCTION))));
-        } else if(name.equals("Report")){
-            panel = new ReportPanel(ProjectManager.getProject(
-                    ProjectManager.getCurrentProjectIndex()));
-        } else if(name.equals("Shop")) {
+        } else if(name.equals(PAGE.REPORT)){
+            Project p = ProjectManager.getProject(ProjectManager.getCurrentProjectIndex());
+            if(p != null)
+                panel = new ReportPanel(p);
+        } else if(name.equals(PAGE.SHOP)) {
             
             ShopSim testStore = new ShopSim();
             //panel = new DisplayPanel(Color.RED, frameDimension);
             
             panel = new ShopPanel(testStore);
             
-        } else if(name.equals("About")){
+        } else if(name.equals(PAGE.ABOUT)){
             String aboutText = "";
             try {
                 aboutText = Utility.ReadTextFile("testAbout.txt");
@@ -190,7 +200,7 @@ public class MainFrame extends JFrame {
             
             panel = new AboutPanel(aboutText);
             
-        } else if(name.equals("Settings")){
+        } else if(name.equals(PAGE.SETTING)){
             panel = new SettingsPanel(frameDimension);
         } else {
             panel = new DisplayPanel(Color.ORANGE, frameDimension);
@@ -205,8 +215,6 @@ public class MainFrame extends JFrame {
      */
     public void SetTitle(String title) {
         this.setTitle("DIY Project\t -" + title);
-        
-        
     }
     
 }

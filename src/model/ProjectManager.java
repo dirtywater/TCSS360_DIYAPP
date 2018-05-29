@@ -33,12 +33,8 @@ public class ProjectManager implements Serializable{
      * @return the project at index
      * @author caleb
      */
-    public static Project getProject(int index) {
-        try {
-            return myProjects.get(index);
-        } catch (ArrayIndexOutOfBoundsException e) {
-            return null;
-        }
+    public static Project getProject(Integer index) {
+        return myProjects.get(index);
         
     }
     
