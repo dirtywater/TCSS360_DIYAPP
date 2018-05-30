@@ -209,6 +209,8 @@ public class ProjectPanel extends JPanel implements ActionListener{
             saveButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
+                    
+                    
                     Receipt newReceipt = new Receipt(titleField.getText(), Double.parseDouble(dollarField.getText())
                                              + Double.parseDouble(centField.getText())/100, //do exception handling
                                              monthField.getText() + "/" + dayField.getText() + "/" + yearField.getText(),
@@ -566,9 +568,14 @@ public class ProjectPanel extends JPanel implements ActionListener{
             this.validate();
         } else if(strActionCommand.startsWith(/*"_D"*/COMMAND.PREFIX_REMOVE_EXISTING_PROJECT.name())) {//used with deleting a project from list of existing projects panel
             Project p = ProjectManager.getProject(Integer.parseInt(strActionCommand.substring(COMMAND.PREFIX_REMOVE_EXISTING_PROJECT.name().length())));
+            Integer indexToRemove = ProjectManager.getIndex(p);
             ProjectManager.removeProject(p);
-            if(ProjectManager.getCurrentProjectIndex() != null) {
-                setCurrentProject(ProjectManager.getCurrentProjectIndex());
+            Integer curProjIndex = ProjectManager.getCurrentProjectIndex();
+            if(curProjIndex != null && curProjIndex < indexToRemove) {
+                setCurrentProject(curProjIndex);
+            } else if(curProjIndex != null && curProjIndex > indexToRemove) {
+                curProjIndex -= 1;
+                setCurrentProject(curProjIndex); //project has been removed index moved 1 up
             } else {
                 setFrameTitle("");
             } 
@@ -653,8 +660,10 @@ public class ProjectPanel extends JPanel implements ActionListener{
 
     }
     
+    /**
+     * @author Michelle
+     */
     private void openReceiptsPage() {
-        ((ProjectEditPanel) displayPanel).updateProject(); //This is what is throwing the exception
         this.remove(displayPanel);
         displayPanel = new ProjectReceiptsPanel(this,
                                                 ProjectManager.getProject(ProjectManager.getCurrentProjectIndex()));
