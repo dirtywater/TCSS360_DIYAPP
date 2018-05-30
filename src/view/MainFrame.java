@@ -157,10 +157,16 @@ public class MainFrame extends JFrame {
     
     
     public void changePanel(PAGE name) {
-        displayPanel.remove(dynamicPanel);
-        dynamicPanel = createPanel(name);
-        displayPanel.add(dynamicPanel, BorderLayout.CENTER);
-        validate();
+        if(name != PAGE.REPORT && name != PAGE.SHOP || ProjectManager.getCurrentProjectIndex() != null) {
+            displayPanel.remove(dynamicPanel);
+            dynamicPanel = createPanel(name);
+            displayPanel.add(dynamicPanel, BorderLayout.CENTER);
+            validate();
+        } else {
+            //project hasn't been selected yet so can't open shop or report page
+            System.out.println("No project selected yet!");
+        }
+
     }
     
     /**
