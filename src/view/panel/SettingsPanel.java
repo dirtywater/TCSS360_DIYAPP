@@ -68,6 +68,7 @@ public class SettingsPanel extends JPanel {
         sb.append("\nEmail: ");
         sb.append(email);
         sb.append("\n\n\n\n");
+        //needs to be converted to HTML to display new lines
         text = Utility.convertToHTML(sb.toString());
         JLabel savedSettings = new JLabel(text);
         this.add(savedSettings,BorderLayout.NORTH);
