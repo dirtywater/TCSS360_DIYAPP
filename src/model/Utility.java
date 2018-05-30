@@ -105,7 +105,10 @@ public class Utility {
     }
     
     /**
-     * The jlabel can display html.
+     * Converts a regular String to html format to be displayed
+     * within a Component because certain things such as new line characters
+     * will not be displayed properly otherwise.
+     * 
      * @param aboutText the text to show 
      * @return returns an html 
      * @author caleb

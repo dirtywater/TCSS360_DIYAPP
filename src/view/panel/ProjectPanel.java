@@ -34,7 +34,9 @@ public class ProjectPanel extends JPanel implements ActionListener{
 
     private enum COMMAND {
         EDIT_PROJECT, EXISTING_PROJECT, MATERIALS, RECEIPTS, SAVE_PROJECT_EDIT, CLOSE_PANEL,
-        PREFIX_EDIT_EXISTING_PROJECT, PREFIX_SELECT_PROJECT, PREFIX_REMOVE_MATERIAL, PREFIX_REMOVE_EXISTING_PROJECT, PREFIX_REMOVE_RECEIPT;
+        PREFIX_EDIT_EXISTING_PROJECT, PREFIX_SELECT_PROJECT, PREFIX_REMOVE_MATERIAL,
+        PREFIX_REMOVE_EXISTING_PROJECT, PREFIX_REMOVE_RECEIPT, PREFIX_ADD_MATERIAL/*for future button*/,
+        PREFIX_ADD_RECEIPT;
 
         //return the command with the same name as the actionCommand or null
         public static COMMAND getCommand(String actionCommand) {
@@ -101,7 +103,7 @@ public class ProjectPanel extends JPanel implements ActionListener{
     /**
      * this panel allows viewing all receipts for the current project and removing receipts from the project.
      * @author caleb
-     *
+     * @author Michelle
      */
     private class ProjectReceiptsPanel extends JPanel {
 
@@ -138,8 +140,91 @@ public class ProjectPanel extends JPanel implements ActionListener{
             }
             receiptsScrollPanel.add(receiptsDisplayPanel);
             this.add(receiptsScrollPane);
+            
+            //Michelle's code
+            JButton addReceipt = new JButton("Add Receipt");
+            addReceipt.setActionCommand(COMMAND.PREFIX_ADD_RECEIPT.name());
+            addReceipt.addActionListener(projectPanel);
+            JPanel receiptOperations = new JPanel();
+            receiptOperations.add(addReceipt);
+            this.add(receiptOperations);
         }
 
+    }
+    
+    /**
+     * The panel that enables a user to add a new receipt to their project.
+     * 
+     * @author Michelle
+     */
+    private class AddReceiptPanel extends JPanel {
+        
+        private static final long serialVersionUID = -1659508405672285218L;
+
+        private AddReceiptPanel() {
+            this.setLayout(new BorderLayout());
+            JPanel fieldsPanel = new JPanel();
+            fieldsPanel.setBorder(BorderFactory.createBevelBorder(0));
+            fieldsPanel.setLayout(new GridLayout(14,0));
+            
+            //TITLE
+            JLabel titleLabel = new JLabel("Name of Item:");
+            fieldsPanel.add(titleLabel);
+            JTextField titleField = new JTextField("", 10);
+            fieldsPanel.add(titleField);
+            
+            //COST
+            JLabel costLabel = new JLabel("Price:");
+            fieldsPanel.add(costLabel);
+            JPanel dollarAndCents = new JPanel();
+            dollarAndCents.add(new JLabel("$"), BorderLayout.WEST);
+            JTextField dollarField = new JTextField("", 8);
+            dollarAndCents.add(dollarField, BorderLayout.CENTER);
+            JTextField centField = new JTextField("", 2);
+            dollarAndCents.add(centField, BorderLayout.EAST);
+            fieldsPanel.add(dollarAndCents);
+            
+            //DATE
+            JLabel dateLabel = new JLabel("Date:"); //adding a custom date doesn't actually work yet
+            fieldsPanel.add(dateLabel);
+            JPanel datePanel = new JPanel();
+            JTextField monthField = new JTextField("mm", 2);
+            datePanel.add(monthField);
+            datePanel.add(new JLabel("/"));
+            JTextField dayField = new JTextField("dd", 2);
+            datePanel.add(dayField);
+            datePanel.add(new JLabel("/"));
+            JTextField yearField = new JTextField("yyyy", 4);
+            datePanel.add(yearField);
+            fieldsPanel.add(datePanel);
+            
+            //NOTE
+            JLabel noteLabel = new JLabel("Note:");
+            fieldsPanel.add(noteLabel);
+            JTextField noteField = new JTextField("", 30);
+            fieldsPanel.add(noteField);
+            
+            //SAVE BUTTON
+            JButton saveButton = new JButton("save");
+            saveButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    Receipt newReceipt = new Receipt(titleField.getText(), Double.parseDouble(dollarField.getText())
+                                             + Double.parseDouble(centField.getText())/100, //do exception handling
+                                             monthField.getText() + "/" + dayField.getText() + "/" + yearField.getText(),
+                                             noteField.getText());
+                    Project p = ProjectManager.getProject(ProjectManager.getCurrentProjectIndex());
+                    p.addReceipt(newReceipt);
+                    ProjectManager.updateProject(ProjectManager.getCurrentProjectIndex(), p);
+                    ProjectManager.saveProjects();
+                    openReceiptsPage();
+                }
+            });
+            
+          this.add(new JLabel("ENTER INFORMATION FOR YOUR RECEIPT"), BorderLayout.NORTH);
+          this.add(fieldsPanel, BorderLayout.CENTER);
+          this.add(saveButton, BorderLayout.SOUTH);
+        }
     }
 
     /**
@@ -182,6 +267,7 @@ public class ProjectPanel extends JPanel implements ActionListener{
             }
             materialsScrollPanel.add(materialsDisplayPanel);
             this.add(materialScrollPane);
+            //TODO add button to add materials that directs to shop
         }
     }
 
@@ -509,6 +595,13 @@ public class ProjectPanel extends JPanel implements ActionListener{
             this.add(displayPanel, BorderLayout.CENTER);
             this.repaint();
             this.validate();
+        } else if (strActionCommand.startsWith(COMMAND.PREFIX_ADD_RECEIPT.name())) {
+            //Michelle's block of code for adding receipt
+            this.remove(displayPanel);
+            displayPanel = new AddReceiptPanel();
+            this.add(displayPanel, BorderLayout.CENTER);
+            this.repaint();
+            this.validate();
         } else {
             COMMAND actionComm = COMMAND.getCommand(e.getActionCommand());
             switch(actionComm) {
@@ -537,13 +630,7 @@ public class ProjectPanel extends JPanel implements ActionListener{
                     this.validate();
                     break;
                 case RECEIPTS:
-                    ((ProjectEditPanel) displayPanel).updateProject();
-                    this.remove(displayPanel);
-                    displayPanel = new ProjectReceiptsPanel(this,
-                                                            ProjectManager.getProject(ProjectManager.getCurrentProjectIndex()));
-                    this.add(displayPanel);
-                    this.repaint();
-                    this.validate();
+                    openReceiptsPage();
                     break;
                 case CLOSE_PANEL:
                     this.remove(displayPanel);
@@ -564,6 +651,16 @@ public class ProjectPanel extends JPanel implements ActionListener{
 
         }
 
+    }
+    
+    private void openReceiptsPage() {
+        ((ProjectEditPanel) displayPanel).updateProject(); //This is what is throwing the exception
+        this.remove(displayPanel);
+        displayPanel = new ProjectReceiptsPanel(this,
+                                                ProjectManager.getProject(ProjectManager.getCurrentProjectIndex()));
+        this.add(displayPanel);
+        this.repaint();
+        this.validate();
     }
 
 
