@@ -13,6 +13,7 @@ import model.Receipt;
  * The JPanel used to display the graph.
  *
  * @author Jim Phan phanjim2@hotmail.com
+ * 
  * @version May 24, 2018
  */
 public class GraphPanel extends JPanel {
