@@ -10,6 +10,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Holds all of a user's projects and manages operations on them such as
+ * adding, deleting and updating relevant information.
+ * 
+ * @author Caleb Wheeler
+ * 
+ * @version May 27, 2018
+ */
 public class ProjectManager implements Serializable{
     
     /**
@@ -29,16 +37,14 @@ public class ProjectManager implements Serializable{
     
     /**
      * used to get a particular project, return null if that project doesn't exist.
+     * 
      * @param index
      * @return the project at index
-     * @author caleb
+     * 
+     * @author Caleb
      */
-    public static Project getProject(int index) {
-        try {
-            return myProjects.get(index);
-        } catch (ArrayIndexOutOfBoundsException e) {
-            return null;
-        }
+    public static Project getProject(Integer index) {
+        return myProjects.get(index);
         
     }
     
@@ -48,8 +54,10 @@ public class ProjectManager implements Serializable{
     
     /**
      * use to set the project as the current project.
+     * 
      * @param theProject
-     * @author caleb
+     * 
+     * @author Caleb
      */
     public static void setCurrentProject(Project theProject) {
         Integer index = ProjectManager.getIndex(theProject);
@@ -61,8 +69,10 @@ public class ProjectManager implements Serializable{
     
     /**
      * set the index to for the current project.
+     * 
      * @param index
-     * @author caleb
+     * 
+     * @author Caleb
      */
     public static void setCurrentProject(Integer index) {
         if(ProjectManager.getProject(index) != null)
@@ -71,9 +81,11 @@ public class ProjectManager implements Serializable{
     
     /**
      * gives the index in the list of projects of the searched project or -1 if not found.
+     * 
      * @param index
      * @return the project at index
-     * @author caleb
+     * 
+     * @author Caleb
      */
     public static int getIndex(Project theProject) {
         for(int i = 0; i < myProjects.size(); i++) {
@@ -86,8 +98,10 @@ public class ProjectManager implements Serializable{
     
     /**
      * gives total number of projects.
-     * @return
-     * @author caleb
+     * 
+     * @return the number of projects
+     * 
+     * @author Caleb
      */
     public static int count() {
         return myProjects.size();
@@ -95,7 +109,8 @@ public class ProjectManager implements Serializable{
     
     /**
      * save all the projects in projectManager.
-     * @author caleb
+     * 
+     * @author Caleb
      */
     public static void saveProjects() {
         try {
@@ -113,7 +128,8 @@ public class ProjectManager implements Serializable{
     
     /**
      * load all projects in project manager.
-     * @author caleb
+     * 
+     * @author Caleb
      */
     public static void loadProjects() {
         // read object from file
@@ -135,8 +151,10 @@ public class ProjectManager implements Serializable{
     
     /**
      * adds the new project to the list then saves the updated list of all projects.
+     * 
      * @param theProject
-     * @author caleb
+     * 
+     * @author Caleb
      */
     public static void addProject(Project theProject) {
         myProjects.add(theProject);
@@ -146,8 +164,10 @@ public class ProjectManager implements Serializable{
     
     /**
      * removes the new project to the list then saves the updated list of all projects.
+     * 
      * @param theProject
-     * @author caleb
+     * 
+     * @author Caleb
      */
     public static void removeProject(Project theProject) {
         int index = ProjectManager.getIndex(theProject);
@@ -162,11 +182,13 @@ public class ProjectManager implements Serializable{
     
     /**
      * update project from original old project to have these new properties.
+     * 
      * @param theOldProject
      * @param theTitle
      * @param theMaterials
      * @param theReceipts
-     * @author caleb
+     * 
+     * @author Caleb
      */
     public static void updateProject(Project theOldProject, String theTitle, 
                                      List<Material> theMaterials, List<Receipt> theReceipts) {
@@ -189,11 +211,13 @@ public class ProjectManager implements Serializable{
     
     /**
      * update a project by its index.
+     * 
      * @param index
      * @param theTitle
      * @param theMaterials
      * @param theReceipts
-     * @author caleb
+     * 
+     * @author Caleb
      */
     public static void updateProject(Integer index, String theTitle,
                                      List<Material> theMaterials, List<Receipt> theReceipts) {
@@ -203,9 +227,11 @@ public class ProjectManager implements Serializable{
     
     /**
      * update a project by index to have the materials and receipts and title of theProject
+     * 
      * @param index
      * @param theProject
-     * @author caleb
+     * 
+     * @author Caleb
      */
     public static void updateProject(Integer index, Project theProject) {
         updateProject(index, theProject.getTitle(), theProject.getMaterials(), theProject.getReceipts());
@@ -213,8 +239,10 @@ public class ProjectManager implements Serializable{
     
     /**
      * return a deep clone of myProjects.
-     * @return
-     * @author caleb
+     * 
+     * @return list of cloned projects
+     * 
+     * @author Caleb
      */
     public static List<Project> getProjects() {
         List<Project> projects = new ArrayList<Project>();

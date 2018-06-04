@@ -10,7 +10,9 @@ import java.util.Date;
  * A user can get a receipt from a Material they purchased in the shop,
  * or they can enter the information from an item purchased elsewhere.
  * 
- * @author Michelle
+ * @author Michelle Brown
+ * 
+ * @version May 29, 2018
  */
 public class Receipt implements Serializable {
     
@@ -28,7 +30,7 @@ public class Receipt implements Serializable {
     public String note;
     
     /**
-     * Constructor for a Material bought in the shop.
+     * Constructor for a Material's receipt bought in the shop.
      * 
      * @param material
      */
@@ -39,7 +41,16 @@ public class Receipt implements Serializable {
         note = "measurement: " + material.myMeasurement.toString() + "\nquantity: " + material.myAmount;
     }
     
-    //added by caleb
+    /**
+     * Constructor for something that was bought outside of the shop.
+     * 
+     * @param title
+     * @param cost
+     * @param date
+     * @param note
+     * 
+     * @author Caleb
+     */
     public Receipt(String title, double cost, Date date, String note) {
         this(title, cost, new SimpleDateFormat("MM/dd/yyyy").format(date), note);
     }

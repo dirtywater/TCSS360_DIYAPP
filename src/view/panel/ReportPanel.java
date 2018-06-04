@@ -9,15 +9,26 @@ import javax.swing.JPanel;
 
 import model.Project;
 import model.Receipt;
+import model.Utility;
 
+/**
+ * The panel that displays a report of all relevant information on the user's current project.
+ * 
+ * @author Jim Phan
+ * 
+ * @version May 27, 2018
+ */
 public class ReportPanel extends JPanel {
 
+    /**
+     * The currently selected project
+     */
     private Project reportProject;
     
     public ReportPanel(Project project) {
         reportProject = project;
         JLabel label = new JLabel();
-        label.setText(toString());
+        label.setText(Utility.convertToHTML(toString()));
         add(label);
     }
     
@@ -26,10 +37,15 @@ public class ReportPanel extends JPanel {
         
     }
     
+    /**
+     * Returns the String representation of the full project report.
+     */
     @Override
     public String toString() {
-        if(reportProject == null || reportProject.getReceipts().size() == 0) {
+        if(reportProject == null) {
             return "No project available";
+        } else if(reportProject.getReceipts().size() == 0) {
+            return "No information available";
         }
         reportProject.getReceipts().sort(new Comparator<Receipt>() {
 

@@ -6,8 +6,10 @@ import java.io.Serializable;
  * Class that holds information about a material a user may choose to add
  * to their project from the shop.
  * 
- * @author David
- * @author Michelle
+ * @author David Guerrero
+ * @author Michelle Brown
+ * 
+ * @version May 25, 2018
  */
 public class Material implements Serializable{
 
@@ -24,10 +26,25 @@ public class Material implements Serializable{
 
     public int myAmount;
 
+    /**
+     * Constructor that creates a new Material of amount 1
+     * 
+     * @param theName
+     * @param thePrice
+     * @param measurement
+     */
     public Material(String theName, double thePrice, model.Measurement measurement) {
         this(theName, thePrice, measurement, 1);
     }
     
+    /**
+     * Constructor that creates a new Material with specified amount
+     * 
+     * @param theName
+     * @param thePrice
+     * @param theMeasurement
+     * @param theAmount
+     */
     public Material(String theName, double thePrice, model.Measurement theMeasurement, int theAmount) {
         myName = theName;
         myPrice = thePrice;
@@ -36,7 +53,7 @@ public class Material implements Serializable{
     }
 
     public String toString() {
-        return  myName + "\nCost = " + myPrice + "\nMeasurment = " + myMeasurement.toString() + "\n\n";
+        return  myName + "\nCost = $" + myPrice + "\nMeasurment = " + myMeasurement.toString() + "\n\n";
     }
 
     public double totalCost() {
@@ -46,7 +63,6 @@ public class Material implements Serializable{
     public String getName() {
         return myName;
     }
-    
     
     
     /**
@@ -59,19 +75,19 @@ public class Material implements Serializable{
      * 
      * @author Michelle
      */
-    class Measurement {
+    private class Measurement {
 
-        boolean imperial; //defaults to true
+        public boolean imperial; //defaults to true
 
-        MeasurementType measurementType;
+        public MeasurementType measurementType;
 
-        double width;
+        public double width;
 
-        double height;
+        public double height;
 
-        double depth;
+        public double depth;
 
-        double weight;
+        public double weight;
 
         /**
          * Constructor.

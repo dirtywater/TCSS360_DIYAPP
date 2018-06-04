@@ -19,7 +19,9 @@ import model.Utility;
  * Panel to display the current user settings. Gives an option to change them
  * and export to file to sync to other devices at a later point.
  * 
- * @author Michelle
+ * @author Michelle Brown
+ * 
+ * @version May 21, 2018
  */
 public class SettingsPanel extends JPanel {
 
@@ -68,6 +70,7 @@ public class SettingsPanel extends JPanel {
         sb.append("\nEmail: ");
         sb.append(email);
         sb.append("\n\n\n\n");
+        //needs to be converted to HTML to display new lines
         text = Utility.convertToHTML(sb.toString());
         JLabel savedSettings = new JLabel(text);
         this.add(savedSettings,BorderLayout.NORTH);
