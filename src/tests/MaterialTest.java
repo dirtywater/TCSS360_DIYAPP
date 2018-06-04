@@ -1,9 +1,12 @@
-package model;
+package tests;
 
 import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import model.Material;
+import model.Measurement;
 
 public class MaterialTest {
 
@@ -12,6 +15,9 @@ public class MaterialTest {
         
     }
 
+    /**
+     * @author David Guerrero
+     */
     @Test
     public void testTotalCost() {
         Material mat = new Material("test",5.00, new Measurement(0,0,0,0));

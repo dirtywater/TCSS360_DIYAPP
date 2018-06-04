@@ -2,7 +2,15 @@ package model;
 
 import java.io.Serializable;
 
+/**
+ * Measurement specifications.
+ * 
+ * @author TODO fill in_________
+ * 
+ * @version TODO fill in_________
+ */
 public class Measurement implements Serializable {
+    
     /**
      * generated serial id.
      */
@@ -21,9 +29,7 @@ public class Measurement implements Serializable {
     }
     
     public String toString() {
-        
         return  myWidth + ", " + myHeight + ", " + myDepth + ", " + myWeight;
     }
-    
     
 }

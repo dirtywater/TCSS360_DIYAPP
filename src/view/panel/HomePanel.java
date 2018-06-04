@@ -13,15 +13,14 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
- * ...
+ * The home panel that the user will see when they first open the program.
  * 
- * @author Michelle
+ * @author Michelle Brown
+ * 
+ * @version May 28, 2018
  */
 public class HomePanel extends JPanel {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -1648973452334682043L;
 
     public HomePanel() {
@@ -39,6 +38,10 @@ public class HomePanel extends JPanel {
         this.add(imageLabel);
     }
     
+    /**
+     * A private MouseAdapter class that helps change an image
+     * based on if the mouse is hovering over it or not.
+     */
     private class Hover extends MouseAdapter {
 
         ImageIcon imageOne;
