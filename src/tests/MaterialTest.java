@@ -22,15 +22,15 @@ public class MaterialTest {
     public void testTotalCost() {
         Material mat = new Material("test",5.00, new Measurement(0,0,0,0));
         // this makes sure the constructor worked
-        assertTrue(mat.myName.equals("test"));
-        assertTrue(mat.myPrice == 5.00);
+        assertTrue(mat.getName().equals("test"));
+        assertTrue(mat.getPrice() == 5.00);
         assertTrue(5.00 == mat.totalCost());
-        assertTrue(1 == mat.myAmount);
+        assertTrue(1 == mat.getAmount());
 
-        mat.myAmount = 3;
+        mat.setAmount(3);
         // check that changing myAmount is working and the new total cost
         assertTrue(15.00 == mat.totalCost());
-        assertTrue(3 == mat.myAmount);
+        assertTrue(3 == mat.getAmount());
         
     }
 

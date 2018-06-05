@@ -18,8 +18,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import com.sun.accessibility.internal.resources.accessibility;
-
 import model.Utility;
 import model.Project;
 import model.ProjectManager;
