@@ -1,7 +1,5 @@
 package view.panel;
 
-import java.awt.Color;
-import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
