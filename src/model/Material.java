@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.Comparator;
 
 /**
  * Class that holds information about a material a user may choose to add
@@ -59,7 +60,11 @@ public class Material implements Serializable{
     }
 
     public String getMeasurements() {
-        return myMeasurement.toString();
+        if(myMeasurement != null) {
+            return myMeasurement.toString();
+        } else {
+            return "";
+        }
     }
     
     /**
@@ -98,5 +103,64 @@ public class Material implements Serializable{
     
     public String getName() {
         return myName;
+    }
+    
+    public Material clone() {
+        Material clone = new Material(myName, myPrice, myMeasurement, 1);
+        return clone;
+    }
+    
+    /**
+     * Returns a comparator object used to sort the materials.
+     * 
+     * @return A comparator object.
+     * @author Jim
+     */
+    public static Comparator<Material> getComparator() {
+        return new MaterialComparator();
+    }
+    
+    /**
+     * Utility method used to compare two values with each other.
+     * 
+     * @param arg0
+     * @param arg1
+     * @return
+     */
+    public static int compareTo(Material arg0, Material arg1) {
+        //Compare the two names to see if there's a difference.
+        int compareString = arg0.getName().compareTo(arg1.getName());
+        //If the two strings are the same, check measurements if they're different.
+        if(compareString == 0) {
+            compareString = arg0.getMeasurements().compareTo(arg0.getMeasurements());
+        }
+        //If the two measurements are the same, finally check the prices.
+        if(compareString == 0) {
+            double price1 = arg0.getPrice();
+            double price2 = arg1.getPrice();
+            if(price1 < price2) {
+                compareString = -1;
+            } else if(price1 > price2) {
+                compareString = 1;
+            } else {
+                compareString = 0;
+            }
+        }
+        return compareString;
+    }
+    
+    /**
+     * The comparator class used to sort Material objects.
+     * 
+     * @author Jim Phan
+     * @version April 4, 2018
+     */
+    private static class MaterialComparator implements Comparator<Material> {
+
+        @Override
+        public int compare(Material arg0, Material arg1) {
+            return Material.compareTo(arg0, arg1);
+        }
+        
     }
 }

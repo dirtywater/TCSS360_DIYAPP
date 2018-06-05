@@ -18,7 +18,12 @@ import model.Receipt;
  */
 public class GraphPanel extends JPanel {
 
-    List<Receipt> graphReceipts;
+    /**
+     * Generated serial code.
+     */
+    private static final long serialVersionUID = 5701627559948147299L;
+    
+    private List<Receipt> graphReceipts;
     
     public GraphPanel(Dimension size, List<Receipt> receipts) {
         int width = (int) (size.width * 0.9);
