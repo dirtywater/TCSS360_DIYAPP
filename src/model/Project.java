@@ -20,12 +20,27 @@ public class Project implements Serializable{
      */
     private static final long serialVersionUID = 3274616962318959161L;
     
+    /**
+     * The formatting used for the Date class.
+     */
     public static final String DATE_FORMAT = "MM/dd/yyyy";
     
+    /**
+     * Title of the project.
+     */
     private String myTitle;
+    
     private Date myDateLastModified;
     private Date myDateCreated;
+    
+    /**
+     * List of materials.
+     */
     private ArrayList<Material> myMaterials = new ArrayList<Material>();
+    
+    /**
+     * List of receipts.
+     */
     private ArrayList<Receipt> myReceipts = new ArrayList<Receipt>();
   //graph and price estimate can be obtained with buildGraph() and estimateTotal()
     
@@ -67,8 +82,8 @@ public class Project implements Serializable{
      * create a project with this title and these materials and receipts.
      * The project will have a start Date for the current date.
      * 
-     * @param projectTitle
-     * @param projectMaterials
+     * @param projectTitle Title of the project.
+     * @param projectMaterials The list of Materials.
      * 
      * @author Caleb
      */
@@ -80,6 +95,9 @@ public class Project implements Serializable{
         myReceipts = projectReceipts;
     }
     
+    /**
+     * @author Caleb
+     */
     public String getTitle() {
         return myTitle;
     }
@@ -130,7 +148,7 @@ public class Project implements Serializable{
     /**
      * return a deep clone of the materials
      * 
-     * @return
+     * @return A cloned copy of the materials.
      * 
      * @author Caleb
      */
@@ -264,11 +282,6 @@ public class Project implements Serializable{
             total += myReceipts.get(i).getCost();
         }
         return total;
-    }
-    
-    public Double getCostOverTime() {
-        //maybe date that the project pays off in heating efficiency?
-        return null;
     }
 
     //auto generated code

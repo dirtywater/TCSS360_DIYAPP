@@ -51,7 +51,8 @@ public class ReportPanel extends JPanel {
 
             @Override
             public int compare(Receipt o1, Receipt o2) {
-                return o1.date.compareTo(o2.date);
+                //return o1.date.compareTo(o2.date);
+                return o1.getDate().compareTo(o2.getDate());
             }
             
         });
@@ -61,7 +62,7 @@ public class ReportPanel extends JPanel {
         
         int year = 0, month = 0, day = 0;
         for(Receipt entry : reportProject.getReceipts()) {
-            LocalDate date = entry.date;
+            LocalDate date = entry.getDate();
             if(date.getYear() != year || date.getMonthValue() != month 
                             || date.getDayOfMonth() != day) {
                 year = date.getYear();
@@ -70,9 +71,9 @@ public class ReportPanel extends JPanel {
                 report.append("\nDate of Purchase: " + month + "/" 
                                 + day + "/" + year + "\n");
             }
-            report.append(entry.title + ": $" + entry.cost + "\n");
-            if(entry.note != null) {
-                report.append("Note: " + entry.note + "\n");
+            report.append(entry.getTitle() + ": $" + entry.getCost() + "\n");
+            if(entry.getNote() != null) {
+                report.append("Note: " + entry.getNote() + "\n");
             }
         }
         return report.toString();
