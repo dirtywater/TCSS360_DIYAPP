@@ -13,8 +13,6 @@ import java.util.List;
  * @version May 24, 2018
  */
 public class Graph {
-
-    private int graphEnd;
     
     private List<Receipt> graphReceipt;
     
