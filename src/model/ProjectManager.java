@@ -45,7 +45,6 @@ public class ProjectManager implements Serializable{
      */
     public static Project getProject(Integer index) {
         return myProjects.get(index);
-        
     }
     
     public static Integer getCurrentProjectIndex() {
