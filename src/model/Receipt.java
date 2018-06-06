@@ -66,6 +66,7 @@ public class Receipt implements Serializable {
      */
     public Receipt(String title, double cost, String date, String note) {
         //date in the form MM/dd/yyyy
+        myTitle = title;
         myCost = cost;
         myDate = LocalDate.now().minusDays(0/*days to subtract to get the actual time purchased.
         should use the string passed in to determine how long ago it was*/);
