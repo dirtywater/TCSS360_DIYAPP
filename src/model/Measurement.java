@@ -49,6 +49,9 @@ public class Measurement implements Serializable {
     public Measurement(double theWidth, double theHeight, double theDepth,
                        double theWeight) {
         myWidth = theWidth;
+        myHeight = theHeight;
+        myDepth = theDepth;
+        myWeight = theWeight;
         imperial = true;
     }
     
