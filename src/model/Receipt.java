@@ -3,6 +3,7 @@ package model;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.Date;
 
 /**
@@ -65,6 +66,7 @@ public class Receipt implements Serializable {
      */
     public Receipt(String title, double cost, String date, String note) {
         //date in the form MM/dd/yyyy
+        myTitle = title;
         myCost = cost;
         myDate = LocalDate.now().minusDays(0/*days to subtract to get the actual time purchased.
         should use the string passed in to determine how long ago it was*/);
@@ -105,4 +107,28 @@ public class Receipt implements Serializable {
                         myDate.toString() + "\n note:\n" + myNote;
     }
     
+    /**
+     * Returns a comparator used to sort the receipts.
+     * 
+     * @return A comparator used to sort the receipts.
+     * @author Jim
+     */
+    public static Comparator<Receipt> getComparator() {
+        return new ReceiptComparator();
+    }
+    
+    /**
+     * Comparator class used to compare the Receipts.
+     * 
+     * @author Jim Phan
+     * @version 6/4/2018
+     */
+    private static class ReceiptComparator implements Comparator<Receipt> {
+
+        @Override
+        public int compare(Receipt o1, Receipt o2) {
+            return o1.getDate().compareTo(o2.getDate());
+        }
+        
+    }
 }
