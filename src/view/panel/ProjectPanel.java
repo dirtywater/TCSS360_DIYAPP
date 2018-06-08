@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EtchedBorder;
 
@@ -494,12 +495,12 @@ public class ProjectPanel extends JPanel implements ActionListener{
                 JPanel panel = new JPanel(layout);
                 String cost = "";
                 Double tempCost = proj.estimateTotal();
-                cost = makeSmallMoney(tempCost);
+                cost = String.format("%.2f", tempCost);
                 JLabel displayText = new JLabel(proj.getTitle().substring
                                                 (0, Integer.min(maxCharsInTitleLabel, proj.getTitle().length())) +
                                                 "   Created: " + proj.getDateCreated() +
                                                 "   Modified: "+ proj.getDateLastModified() +
-                                                "   Cost: $" + cost);
+                                                "   Cost: $" + cost + " ");
                 int projIndex = ProjectManager.getIndex(proj);
 
                 JButton btnEdit = new JButton("Edit");
