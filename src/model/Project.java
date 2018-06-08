@@ -189,14 +189,25 @@ public class Project implements Serializable{
     
     /**
      * remove the material from the list and update date last modified.
+     *  david - refactored to get materials with more than one count to show up as one.
      * 
      * @return returns true if the material was removed and false if the material wasn't found.
      * @param theMaterial
      * 
      * @author Caleb
+     * @author David
      */
     public boolean removeMaterial(Material theMaterial) {
-        boolean removed = myMaterials.remove(theMaterial);
+        //boolean removed = myMaterials.remove(theMaterial);
+        boolean removed;
+        if (myMaterials.get(myMaterials.indexOf(theMaterial)).getAmount() > 1) {
+            myMaterials.get(myMaterials.indexOf(theMaterial)).setAmount(myMaterials.get(myMaterials.indexOf(theMaterial)).getAmount() - 1);
+            removed = true;
+        } else {
+            removed = myMaterials.remove(theMaterial);
+        }
+        
+        
         if(removed) {
             //project was changed so update project.
             myDateLastModified = new Date();

@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EtchedBorder;
 
@@ -250,8 +251,9 @@ public class ProjectPanel extends JPanel implements ActionListener{
 
     /**
      * this panel allows viewing all materials for the current project and removing materials from the project.
-     * 
+     *  david - refactored to get materials with more than one count to show up as one.
      * @author Caleb
+     * @author David 
      */
     private class ProjectMaterialsPanel extends JPanel {
         /**
@@ -273,8 +275,8 @@ public class ProjectPanel extends JPanel implements ActionListener{
             if(theProject != null) {
                 List<Material> mats = theProject.getMaterials();
                 for(Material mat : mats) {
-                    String matText = mat.getName() +" $" + mat.totalCost() + " ";
-
+                    String matText = mat.getName() +" $" + String.format("%.2f", mat.totalCost()) + " Count: " + mat.getAmount() + "  ";
+                    
                     JButton btnRemove = new JButton("Remove");
                     btnRemove.addActionListener(projectPanel);
                     btnRemove.setActionCommand(/*"_R"*/COMMAND.PREFIX_REMOVE_MATERIAL.name() + mat.toString());
@@ -493,12 +495,12 @@ public class ProjectPanel extends JPanel implements ActionListener{
                 JPanel panel = new JPanel(layout);
                 String cost = "";
                 Double tempCost = proj.estimateTotal();
-                cost = makeSmallMoney(tempCost);
+                cost = String.format("%.2f", tempCost);
                 JLabel displayText = new JLabel(proj.getTitle().substring
                                                 (0, Integer.min(maxCharsInTitleLabel, proj.getTitle().length())) +
                                                 "   Created: " + proj.getDateCreated() +
                                                 "   Modified: "+ proj.getDateLastModified() +
-                                                "   Cost: $" + cost);
+                                                "   Cost: $" + cost + " ");
                 int projIndex = ProjectManager.getIndex(proj);
 
                 JButton btnEdit = new JButton("Edit");
