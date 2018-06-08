@@ -8,6 +8,12 @@ import org.junit.Test;
 import model.Material;
 import model.Measurement;
 
+/**
+ * JUnit test for Material class.
+ * 
+ * @author David Guerrero
+ * @version 6/7/2018
+ */
 public class MaterialTest {
 
     @Before
@@ -19,7 +25,7 @@ public class MaterialTest {
      * @author David Guerrero
      */
     @Test
-    public void testTotalCost() {
+    public void testMaterial() {
         Material mat = new Material("test",5.00, new Measurement(0,0,0,0));
         // this makes sure the constructor worked
         assertTrue(mat.getName().equals("test"));
@@ -33,10 +39,4 @@ public class MaterialTest {
         assertTrue(3 == mat.getAmount());
         
     }
-
-    @Test
-    public void testGetName() {
-        fail("Not yet implemented");
-    }
-
 }
