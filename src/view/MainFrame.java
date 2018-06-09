@@ -105,7 +105,7 @@ public class MainFrame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
         frameDimension = new Dimension((int)(size.getWidth() * REDUCTION),
-                (int)(size.getHeight() * REDUCTION) + 90);
+                (int)(size.getHeight() * REDUCTION) + 22);
         setSize(new Dimension((int)(frameDimension.getWidth()),
                 (int)frameDimension.getHeight()));
         dynamicPanel = new HomePanel();
@@ -136,13 +136,13 @@ public class MainFrame extends JFrame {
         panel.setBackground(Color.BLACK);
         panel.setPreferredSize(new Dimension(width, height));
         
+        panel.add(createBackButton("images/back.png"));
         panel.add(createButton(PAGE.HOME, "images/home_button.png"));
         panel.add(createButton(PAGE.PROJECT, "images/projects_button.png"));
         panel.add(createButton(PAGE.REPORT, "images/efficiency_button.png"));
         panel.add(createButton(PAGE.SHOP, "images/shop_button.png"));
         panel.add(createButton(PAGE.ABOUT, "images/about_button.png"));
         panel.add(createButton(PAGE.SETTING, "images/settings_button.png"));
-        panel.add(createBackButton("images/back.png"));
         return panel;
     }
     
@@ -184,7 +184,7 @@ public class MainFrame extends JFrame {
     private JButton createBackButton(String icon) throws IOException {
         ProjectManager.loadProjects();
         Image image = ImageIO.read(new File(icon));
-        image = image.getScaledInstance(75, 75, java.awt.Image.SCALE_SMOOTH);
+        image = image.getScaledInstance(75, 40, java.awt.Image.SCALE_SMOOTH);
         ImageIcon button_image = new ImageIcon(image);
         JButton button = new JButton(button_image);
         button.addActionListener(new ActionListener() {
