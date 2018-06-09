@@ -46,7 +46,7 @@ public class ShopPanel extends JPanel {
      * @param height minimum height of the panel
      * 
      * @author David
-     * @author Caleb
+     * @author Caleb - refactored shop items buttons actionlistener
      */
     public ShopPanel(ShopSim testStore) {
         Dimension size = Toolkit.getDefaultToolkit().getScreenSize();

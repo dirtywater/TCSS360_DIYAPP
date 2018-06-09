@@ -48,11 +48,16 @@ public class Project implements Serializable{
      * create a project with a specified title and no materials.
      * 
      * @param projectTitle
+     * 
+     * @author Caleb
      */
     public Project(String projectTitle){
         this(projectTitle, new ArrayList<Material>(), new ArrayList<Receipt>());
     }
     
+    /**
+     * @author Caleb
+     */
     @Override
     public String toString() {
         String project = "Title: " + myTitle;
@@ -102,12 +107,22 @@ public class Project implements Serializable{
         return myTitle;
     }
     
+    /**
+     * @return the date the project was last modified
+     * 
+     * @author Caleb
+     */
     public String getDateLastModified() {
         SimpleDateFormat dt = new SimpleDateFormat(DATE_FORMAT);
         String date = dt.format(myDateLastModified);
         return date;
     }
     
+    /**
+     * @return the date the project was created
+     * 
+     * @author Caleb
+     */
     public String getDateCreated() {
         SimpleDateFormat dt = new SimpleDateFormat(DATE_FORMAT);
         String date = dt.format(myDateCreated);
@@ -118,7 +133,6 @@ public class Project implements Serializable{
      * replace all of the projects materials with these.
      * 
      * @param theMaterials
-     * @return
      * 
      * @author Caleb
      */
@@ -163,7 +177,7 @@ public class Project implements Serializable{
     /**
      * return a deep clone of the receipts.
      * 
-     * @return
+     * @return the list of receipts
      * 
      * @author Caleb
      */
@@ -189,13 +203,12 @@ public class Project implements Serializable{
     
     /**
      * remove the material from the list and update date last modified.
-     *  david - refactored to get materials with more than one count to show up as one.
      * 
      * @return returns true if the material was removed and false if the material wasn't found.
      * @param theMaterial
      * 
      * @author Caleb
-     * @author David
+     * @author David - refactored to get materials with more than one count to show up as one.
      */
     public boolean removeMaterial(Material theMaterial) {
         //boolean removed = myMaterials.remove(theMaterial);
@@ -206,7 +219,6 @@ public class Project implements Serializable{
         } else {
             removed = myMaterials.remove(theMaterial);
         }
-        
         
         if(removed) {
             //project was changed so update project.

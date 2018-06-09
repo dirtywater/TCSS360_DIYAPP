@@ -1,4 +1,3 @@
-
 package tests;
 
 import static org.junit.Assert.*;
@@ -13,12 +12,10 @@ import model.Measurement;
  * JUnit test for Material class.
  * 
  * @author David Guerrero
- * @version 6/7/2018
+ * 
+ * @version June 7, 2018
  */
 public class MaterialTest {
-
-    
-    
     
     @Before
     public void setUp() throws Exception {
@@ -26,7 +23,9 @@ public class MaterialTest {
     }
     
     /**
-     * @author David Guerrero
+     * Measurements value check
+     * 
+     * @author David
      */
     @Test
     public void testgetMeasurements() {
@@ -50,7 +49,9 @@ public class MaterialTest {
     }
         
     /**
-     * @author David Guerrero
+     * Price value check
+     * 
+     * @author David
      */
     @Test
     public void testgetPrice() {
@@ -61,7 +62,9 @@ public class MaterialTest {
     }
     
     /**
-     * @author David Guerrero
+     * Amount value check
+     * 
+     * @author David
      */
     @Test
     public void testgetAmount() {
@@ -74,7 +77,9 @@ public class MaterialTest {
     }
     
     /**
-     * @author David Guerrero
+     * Check if amount was set
+     * 
+     * @author David
      */
     @Test
     public void testsetAmount() {
@@ -86,7 +91,9 @@ public class MaterialTest {
     }
     
     /**
-     * @author David Guerrero
+     * Total cost of Material value check
+     * 
+     * @author David
      */
     @Test
     public void testtotalCost() {
@@ -99,7 +106,9 @@ public class MaterialTest {
     }
     
     /**
-     * @author David Guerrero
+     * Name value check
+     * 
+     * @author David
      */
     @Test
     public void testgetName() {
@@ -111,7 +120,9 @@ public class MaterialTest {
     }
     
     /**
-     * @author David Guerrero
+     * Clone value check
+     * 
+     * @author David
      */
     @Test
     public void testclone() {
@@ -127,19 +138,21 @@ public class MaterialTest {
     }
     
     /**
-     * @author David Guerrero
+     * Checks the compareTo method with like materials
+     * 
+     * @author David
      */
     @Test
     public void testcompareTo() {
         
         Material testMaterial1 = new Material("test",5.00, new Measurement(0,0,0,0));
-        Material testMaterial2= new Material("test",5.00, new Measurement(0,0,0,0));
+        Material testMaterial2 = new Material("test",5.00, new Measurement(0,0,0,0));
         
         Material testMaterial3 = new Material("aest",5.00, new Measurement(0,0,0,0));
-        Material testMaterial4= new Material("cest",5.00, new Measurement(0,0,0,0));
+        Material testMaterial4 = new Material("cest",5.00, new Measurement(0,0,0,0));
         
         Material testMaterial5 = new Material("test",6.00, new Measurement(0,0,0,0));
-        Material testMaterial6= new Material("test",5.00, new Measurement(0,0,0,0));
+        Material testMaterial6 = new Material("test",5.00, new Measurement(0,0,0,0));
         
         // Test to make sure that we get a zero when like materials are compared
         assertTrue(Material.compareTo(testMaterial1, testMaterial2) == 0);

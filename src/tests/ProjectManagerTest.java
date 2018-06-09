@@ -17,8 +17,8 @@ import model.ProjectManager;
  * The JUnit test for ProjectManager class.
  * 
  * @author Jim Phan
- * @author Michelle Brown
- * @version 6/6/2018
+ * 
+ * @version June 6, 2018
  */
 public class ProjectManagerTest {
 
@@ -30,7 +30,8 @@ public class ProjectManagerTest {
      * Sets up the ProjectManager.
      * 
      * @throws Exception
-     * @author Jim Phan
+     * 
+     * @author Jim
      */
     @Before
     public void setUp() throws Exception {
@@ -64,6 +65,11 @@ public class ProjectManagerTest {
         ProjectManager.addProject(project1);
     }
 
+    /**
+     * Check if project returned was the one added.
+     * 
+     * @author Jim
+     */
     @Test
     public void testGetProject() {
         Project project = ProjectManager.getProject(0);
@@ -76,6 +82,11 @@ public class ProjectManagerTest {
         assertTrue(materials.get(0).getAmount() == board.getAmount());
     }
 
+    /**
+     * Check index returned is correct
+     * 
+     * @author Jim
+     */
     @Test
     public void testGetCurrentProjectIndex() {
         ProjectManager.addProject(testProjects.get(1));
@@ -84,6 +95,11 @@ public class ProjectManagerTest {
         ProjectManager.removeProject(testProjects.get(1));
     }
 
+    /**
+     * Checks that the current project was set properly
+     * 
+     * @author Jim
+     */
     @Test
     public void testSetCurrentProjectProject() {
         ProjectManager.addProject(testProjects.get(1));
@@ -97,6 +113,11 @@ public class ProjectManagerTest {
         ProjectManager.removeProject(testProjects.get(1));
     }
 
+    /**
+     * Checks if the index of the current project is correct
+     * 
+     * @author Jim
+     */
     @Test
     public void testSetCurrentProjectInteger() {
         ProjectManager.addProject(testProjects.get(1));
@@ -110,11 +131,21 @@ public class ProjectManagerTest {
         ProjectManager.removeProject(testProjects.get(2));
     }
 
+    /**
+     * Number of projects value check
+     * 
+     * @author Jim
+     */
     @Test
     public void testCount() {
         assertTrue(ProjectManager.count() == ProjectManager.getProjects().size());
     }
 
+    /**
+     * Checks if project was added
+     * 
+     * @author Jim
+     */
     @Test
     public void testAddProject() {
         ProjectManager.addProject(testProjects.get(1));
@@ -122,6 +153,11 @@ public class ProjectManagerTest {
         ProjectManager.removeProject(testProjects.get(1));
     }
 
+    /**
+     * Check if project was removed
+     * 
+     * @author Jim
+     */
     @Test
     public void testRemoveProject() {
         ProjectManager.addProject(testProjects.get(1));
@@ -132,6 +168,11 @@ public class ProjectManagerTest {
         assertTrue(testValue == -1);
     }
 
+    /**
+     * Checks if the projects returned are the correct ones
+     * 
+     * @author Jim
+     */
     @Test
     public void testGetProjects() {
         List<Project> projects = ProjectManager.getProjects();
