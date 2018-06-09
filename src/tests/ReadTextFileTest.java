@@ -20,6 +20,8 @@ public class ReadTextFileTest {
 
     /**
      * Makes sure the method doesn't throw a FileNotFoundException when the file exists
+     * 
+     * @author Michelle
      */
     @Test
     public void testValidFilename() {
@@ -39,6 +41,8 @@ public class ReadTextFileTest {
 
     /**
      * Checks if the method throws FileNotFoundException when given a bad filename
+     * 
+     * @author Michelle
      */
     @Test//(expected = IOException.class)
     public void testBadFilename() {

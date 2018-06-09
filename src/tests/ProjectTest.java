@@ -9,6 +9,8 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.sun.accessibility.internal.resources.accessibility;
+
 import model.Material;
 import model.Measurement;
 import model.Project;
@@ -33,6 +35,8 @@ public class ProjectTest {
      * Sets up the Project
      * 
      * @throws Exception
+     * 
+     * @author Michelle
      */
     @Before
     public void setUp() throws Exception {
@@ -46,6 +50,11 @@ public class ProjectTest {
         testReceipts.add(new Receipt("Nails", 2.99, new Date(), "Hardware store purchase"));
     }
 
+    /**
+     * Project String check
+     * 
+     * @author Michelle
+     */
     @Test
     public void testProjectString() {
         testProject.addMaterial(testMaterials.get(0));
@@ -56,6 +65,11 @@ public class ProjectTest {
         assertTrue(projectString.equals(string));
     }
 
+    /**
+     * Title value check
+     * 
+     * @author Michelle
+     */
     @Test
     public void testGetTitle() {
         String title = "This Project";
@@ -63,6 +77,11 @@ public class ProjectTest {
         assertEquals(newProject.getTitle(), title);
     }
 
+    /**
+     * Checks to see if materials returned are the ones it was given
+     * 
+     * @author Michelle
+     */
     @Test
     public void testGetMaterials() {
         testProject.addMaterial(testMaterials.get(0));
@@ -73,6 +92,11 @@ public class ProjectTest {
         }
     }
 
+    /**
+     * Checks to see if receipts returned are the ones it was given
+     * 
+     * @author Michelle
+     */
     @Test
     public void testGetReceipts() {
         testProject.addReceipt(testReceipts.get(0));
@@ -83,6 +107,11 @@ public class ProjectTest {
         }
     }
 
+    /**
+     * Check if the title was changed
+     * 
+     * @author Michelle
+     */
     @Test
     public void testChangeProjectTitle() {
         String title = "This Project";
@@ -90,6 +119,11 @@ public class ProjectTest {
         assertEquals(testProject.getTitle(), title);
     }
 
+    /**
+     * Check if material was removed
+     * 
+     * @author Michelle
+     */
     @Test
     public void testRemoveMaterial() {
         Material materialPointer = testMaterials.get(0);
@@ -101,6 +135,11 @@ public class ProjectTest {
         }
     }
     
+    /**
+     * Check if material was added
+     * 
+     * @author Michelle
+     */
     @Test
     public void testAddMaterial() {
 //      Material material = new Material("Paint", 15.00, new Measurement(0.0, 0.0, 0.0, 16.0));
@@ -114,6 +153,11 @@ public class ProjectTest {
         assertTrue(testMaterials.get(0).getPrice() == theMaterial.getPrice());
     }
 
+    /**
+     * Check if receipt was removed
+     * 
+     * @author Michelle
+     */
     @Test
     public void testRemoveReceipt() {
         Receipt receiptPointer = testReceipts.get(0);
@@ -125,6 +169,11 @@ public class ProjectTest {
         }
     }
 
+    /**
+     * Check if receipt was added
+     * 
+     * @author Michelle
+     */
     @Test
     public void testAddReceipt() {
         testProject.addReceipt(testReceipts.get(0));
@@ -135,6 +184,11 @@ public class ProjectTest {
         assertEquals(testReceipts.get(0).getTitle(), theReceipt.getTitle());
     }
 
+    /**
+     * Check if the total cost was calculated correctly
+     * 
+     * @author Michelle
+     */
     @Test
     public void testEstimateTotal() {
         testProject.addMaterial(testMaterials.get(0));

@@ -35,8 +35,7 @@ import view.panel.ShopPanel;
  * The Main frame the user sees. It houses the home screen and its buttons.
  *
  * @author Jim Phan phanjim2@hotmail.com
- * @author Caleb Wheeler
- * @author Michelle Brown
+ * @author Michelle Brown - added little things like button images and panel creation once something was complete
  * 
  * @version May 29, 2018
  */
@@ -117,7 +116,7 @@ public class MainFrame extends JFrame {
      * @throws IOException
      * 
      * @author Jim
-     * @author Michelle added images and paths
+     * @author Michelle - added images and paths
      */
     private JPanel createSidePanel(int width, int height) throws IOException {
         JPanel panel = new JPanel();
@@ -145,7 +144,7 @@ public class MainFrame extends JFrame {
      * @throws IOException
      * 
      * @author Jim
-     * @author Michelle added icons
+     * @author Michelle - added icons
      */
     private JButton createButton(PAGE name, String icon) throws IOException {
         ProjectManager.loadProjects();
@@ -189,7 +188,7 @@ public class MainFrame extends JFrame {
      * @return the panel that was created
      * 
      * @author Jim
-     * @author Michelle added home and about page
+     * @author Michelle - added home and about page
      */
      private JPanel createPanel(PAGE name) {
         JPanel panel = null;
